@@ -18,3 +18,11 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> DB/Data ###
+docker/
+###< Db/Data ###
+
+###> intellij/congig ###
+.idea/
+###<intellij/config ###
