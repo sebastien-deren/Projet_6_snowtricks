@@ -25,17 +25,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         parent::__construct($registry, User::class);
     }
 
-    public function registerNewUser(User $user,string $plainPassword="", bool $flush = false): void
-    {
-        if(!empty($plainPassword)){
-           $user->setPassword($this->passwordHasher->hashPassword($user,$plainPassword));
-        }
-        $this->getEntityManager()->persist($user);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
     public function save(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

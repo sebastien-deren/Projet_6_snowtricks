@@ -4,15 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Service\Interface\UserRegisterServiceInterface;
+use App\Service\Interface\UserVerifyMailServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
@@ -23,35 +21,25 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
-    }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
+    //create a register Interface
+    public function register(Request $request, UserRegisterServiceInterface $registerService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            //do we keep this here ? directly to entity
             $plainPassword = $form->get('plainPassword')->getData();
-            $userRepository->registerNewUser($user, $plainPassword, true);
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('mailer@snowtricks.com', 'Snowtricks mailer'))
-                    ->to($user->getMail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
+            $registerService->createNewUser($user,$plainPassword);
+            try {
+                $registerService->sendEMailConfirmation($user,'app_verify_email');
+            }catch(TransportExceptionInterface $transportException){
+                $this->addFlash('error', $transportException->getMessage());
+                return $this->redirectToRoute('app_register');
+            }
 
             return $this->redirectToRoute('_profiler_home');
         }
@@ -61,23 +49,13 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email/{id}', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, User $user, EntityManagerInterface $manager): Response
+    #[Route('/verify/email/{id}/{token}', name: 'app_verify_email')]
+    public function verifyUserEmail(User $user, string $token, UserVerifyMailServiceInterface $registerService): Response
     {
-        $token = $request->get('token');
-        if (null === $token) {
-            return $this->redirectToRoute('app_register');
-        }
 
         try {
-            if (!hash_equals($token, hash('md5', $user->getId() . $user->getUsername()))) {
-                throw new UnsupportedUserException('The token is not correct');
-            }
-            $user->setIsVerified(true);
-            $manager->flush();
-
-            dd($user);
-            //return $this->redirectToRoute('_profiler_home');
+            $registerService->verifyEmail($user,$token);
+            return $this->redirectToRoute('_profiler_home');
         } catch (UnsupportedUserException $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_register');
