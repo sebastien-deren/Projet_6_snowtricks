@@ -11,14 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DumpDataController extends AbstractController
 {
-    #[Route('/dump/data', name: 'app_dump_data')]
-    public function index(UserRepository $userRepository, EntityManagerInterface $manager): Response
+    #[Route('/dump/data/{db}', name: 'app_dump_data')]
+    public function index(UserRepository $userRepository, EntityManagerInterface $manager, string $db = null): Response
     {
-        $users = $userRepository->findAll();
-        foreach ($users as $user){
-            $userRepository->remove($user);
-            $manager->flush();
+        if (null === $db) {
+            $users = $userRepository->findAll();
+            foreach ($users as $user) {
+                $userRepository->remove($user);
+                $manager->flush();
+            }
+
         }
+
         return $this->render('dump_data/index.html.twig', [
             'controller_name' => 'DumpDataController',
         ]);
