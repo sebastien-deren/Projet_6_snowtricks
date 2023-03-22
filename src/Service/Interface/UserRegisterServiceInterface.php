@@ -4,9 +4,9 @@ namespace App\Service\Interface;
 
 
 use App\Entity\Interface\UserRegisterInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 interface UserRegisterServiceInterface
 {
- public function createNewUser(UserRegisterInterface $user, string $plainPassword):void;
- public function sendEmailConfirmation(UserRegisterInterface $user, string $verifiedEmailRouteName);
+ public function createNewUser(PasswordAuthenticatedUserInterface $user, string $plainPassword):void;
 }

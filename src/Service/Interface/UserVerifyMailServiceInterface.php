@@ -3,6 +3,7 @@
 namespace App\Service\Interface;
 
 use App\Entity\Interface\UserRegisterInterface;
+use App\Entity\Interface\VerifiableUserInterface;
 
 interface UserVerifyMailServiceInterface
 {

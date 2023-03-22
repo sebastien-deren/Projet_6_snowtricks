@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Interface\VerifiableUserInterface;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry,private UserPasswordHasherInterface $passwordHasher)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
@@ -56,7 +57,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
-
+public function verifyUser(VerifiableUserInterface $user, bool $verified): void
+{
+    $user->setIsVerified($verified);
+    $this->save($user,true);
+}
 
 //    /**
 //     * @return User[] Returns an array of User objects

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Service\Interface\ConfirmEmailInterface;
 use App\Service\Interface\UserRegisterServiceInterface;
 use App\Service\Interface\UserVerifyMailServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,7 @@ class RegistrationController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     //create a register Interface
-    public function register(Request $request, UserRegisterServiceInterface $registerService): Response
+    public function register(Request $request, UserRegisterServiceInterface $registerService,ConfirmEmailInterface $confirmEmail): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,7 +36,7 @@ class RegistrationController extends AbstractController
             $plainPassword = $form->get('plainPassword')->getData();
             $registerService->createNewUser($user,$plainPassword);
             try {
-                $registerService->sendEMailConfirmation($user,'app_verify_email');
+                $confirmEmail->sendConfirmation($user,'app_verify_email');
             }catch(TransportExceptionInterface $transportException){
                 $this->addFlash('error', $transportException->getMessage());
                 return $this->redirectToRoute('app_register');
