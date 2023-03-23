@@ -29,19 +29,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
     #[Assert\NotCompromisedPassword]
-    #[Assert\Length(6,255)]
+    #[Assert\Length(min:6,max:255)]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email]
-    #[Assert\LessThan(255)]
+    #[Assert\Length(max:255)]
     private ?string $mail = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Url]
-    #[Assert\LessThan(255)]
+    #[Assert\Length(max:255)]
     private ?string $photo = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
