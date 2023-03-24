@@ -2,12 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
+use App\Service\Interfaces\MailPasswordInterface;
 use Symfony\Component\Mime\Address;
-
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -18,41 +15,37 @@ class ResetPasswordService
 
 
     public function __construct(
-        private UserPasswordHasherInterface $passwordHasher,
-        private UserRepository        $userRepository,
-        private UrlGeneratorInterface $urlGenerator,
-        private MailerInterface       $mailer,
-        private array                 $mailBot = ['address' => 'default@example.com', 'name' => 'Mail bot'])
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly UserRepository              $userRepository,
+        private readonly UrlGeneratorInterface       $urlGenerator,
+        private readonly MailPasswordInterface       $mailerService)
     {
     }
 
+    /**
+     * @param string $mail
+     * @param string $addressName
+     * @return void
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
     public function ResetPasswordRequest(string $mail, string $addressName): void
     {
-        $user = $this->userRepository->findOneBy(['mail' => $mail]) ?? throw new UserNotFoundException();
+        try{
+
+            $user = $this->userRepository->findOneBy(['mail' => $mail]) ?? throw new UserNotFoundException();
+        }catch(UserNotFoundException $e){
+            return;
+        }
         $token = hash('md5', $user->getId() . $user->getUsername());
-        $fqan = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token],UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->sendmail($user, $fqan);
+        $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+        $this->mailerService->sendResetPasswordMail(new Address($user->getMail(), $user->getUsername()), ['address' => $fqAddress]);
     }
 
-    private function sendmail(User $user, string $fqan): void
-    {
-
-        $mail = (new TemplatedEmail())
-            ->from($this->mailBot['address'])
-            ->to(new address($user->getMail(), $user->getUsername()))
-            ->subject('reset your password')
-            ->htmlTemplate('reset_password/reset_mail.html.twig');
-
-        $context = $mail->getContext();
-        $context['address']= $fqan;
-        $mail->context($context);
-        $this->mailer->send($mail);
-    }
 
     public
     function upgradePassword(PasswordAuthenticatedUserInterface $user, string $plainPassword): void
     {
-        $newPassword = $this->passwordHasher->hashPassword($user,$plainPassword);
+        $newPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $this->userRepository->upgradePassword($user, $newPassword);
 
     }

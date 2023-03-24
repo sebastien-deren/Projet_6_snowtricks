@@ -3,19 +3,36 @@
 {% block title %}Hello ResetPasswordController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello You're here to change Password! ✅</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Hello You're here to change Password! ✅</h1>
 
 
-    {% if resetPasswordRequestForm is defined %}
-    {{ form(resetPasswordRequestForm) }}
-    {% elseif resetPasswordForm is defined%}
-    {{ form(resetPasswordForm) }}
-    {% endif %}
-</div>
+        {% if emailSent|default %}
+            {% if error %}
+                <p>{{ error }}</p>
+            {% else %}
+                <p>Un lien vous à été envoyé à {{ emailSent }} merci de cliquer dessus pour changer votre mot de passe!</p>
+            {% endif %}
+        {% endif %}
+
+        {% if resetPasswordRequestForm is defined %}
+            {{ form(resetPasswordRequestForm) }}
+        {% elseif resetPasswordForm is defined %}
+            {{ form(resetPasswordForm) }}
+        {% endif %}
+    </div>
 {% endblock %}
