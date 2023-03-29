@@ -8,6 +8,8 @@ use App\Security\EmailVerifier;
 use App\Service\Interface\ConfirmEmailInterface;
 use App\Service\Interface\UserRegisterServiceInterface;
 use App\Service\Interface\UserVerifyMailServiceInterface;
+use App\Service\MailerService;
+use App\Service\RegisterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +28,7 @@ class RegistrationController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     //create a register Interface
-    public function register(Request $request, UserRegisterServiceInterface $registerService,ConfirmEmailInterface $confirmEmail): Response
+    public function register(Request $request, RegisterService $registerService, MailerService $confirmEmail): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,10 +36,10 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
-            $registerService->createNewUser($user,$plainPassword);
+            $registerService->createNewUser($user, $plainPassword);
             try {
-                $confirmEmail->sendConfirmation($user,'app_verify_email');
-            }catch(TransportExceptionInterface $transportException){
+                $confirmEmail->sendConfirmation($user, 'app_verify_email');
+            } catch (TransportExceptionInterface $transportException) {
                 $this->addFlash('error', $transportException->getMessage());
                 return $this->redirectToRoute('app_register');
             }
@@ -51,24 +53,18 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email/{id}/{token}', name: 'app_verify_email')]
-    public function verifyUserEmail(User $user, string $token, UserVerifyMailServiceInterface $registerService): Response
+    public function verifyUserEmail(User $user, string $token, RegisterService $registerService): Response
     {
 
         try {
-            $registerService->verifyEmail($user,$token);
-            return $this->redirectToRoute('_profiler_home');
+            $registerService->verifyEmail($user, $token);
         } catch (UnsupportedUserException $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_register');
-
         }
-        // validate email confirmation link, sets User::isVerified=true and persists
 
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_homepage');
     }
 
 }
