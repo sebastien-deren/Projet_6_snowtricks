@@ -18,7 +18,7 @@ class ResetPasswordService
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly UserRepository              $userRepository,
         private readonly UrlGeneratorInterface       $urlGenerator,
-        private readonly MailPasswordInterface       $mailerService)
+        private readonly MailerService       $mailerService)
     {
     }
 
@@ -36,7 +36,7 @@ class ResetPasswordService
         }catch(UserNotFoundException $e){
             return;
         }
-        $token = hash('md5', $user->getId() . $user->getUsername());
+        $token = $user->getHash();
         $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->mailerService->sendResetPasswordMail(new Address($user->getMail(), $user->getUsername()), ['address' => $fqAddress]);
     }

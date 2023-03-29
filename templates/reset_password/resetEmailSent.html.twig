@@ -18,9 +18,17 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Hello You're here to change Password! ✅</h1>
+        <h1>Hello an Email have been sent to you ✅</h1>
 
 
-            {{ form(resetPasswordRequestForm) }}
+        {% if error %}
+            <p>{{ error }}</p>
+        {% else %}
+            <p>Un lien vous à été envoyé à {{ emailSent }} merci de cliquer dessus pour changer votre mot de
+                passe!</p>
+        {% endif %}
+
+        <h3>If you want to ReSend the email resubmit this form</h3>
+        {{ form(resetPasswordRequestForm) }}
     </div>
 {% endblock %}

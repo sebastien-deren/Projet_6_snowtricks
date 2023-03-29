@@ -2,12 +2,11 @@
 
 namespace App\Service;
 
-use App\Service\Interfaces\MailPasswordInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
-class MailerService implements MailPasswordInterface
+class MailerService
 {
     private TemplatedEmail $email ;
     public function __construct(

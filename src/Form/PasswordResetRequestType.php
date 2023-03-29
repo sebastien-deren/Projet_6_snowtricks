@@ -20,7 +20,8 @@ class PasswordResetRequestType extends AbstractType
                     new Assert\NotBlank(),
                     new Assert\Length(['min'=>10]),
                     new Assert\Email()
-                ]
+                ],
+                'empty_data'=>'{{emailSent}}',
             ])
             ->add('submit',SubmitType::class)
         ;

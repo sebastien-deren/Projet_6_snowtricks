@@ -25,9 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
+
     #[ORM\Column]
     #[Assert\NotCompromisedPassword]
     #[Assert\Length(min:6,max:255)]
@@ -48,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->discussionSpaces = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,8 +153,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addDiscussionSpace(Message $message): self
     {
-        if (!$this->discussionSpaces->contains($message)) {
-            $this->discussionSpaces->add($message);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
             $message->setUser($this);
         }
 
@@ -165,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDiscussionSpace(Message $message): self
     {
-        if ($this->discussionSpaces->removeElement($message)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
             if ($message->getUser() === $this) {
                 $message->setUser(null);
@@ -173,5 +171,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+    public function getHash():string{
+        return hash('sha256', $this->getId() . $this->getUsername());
     }
 }
