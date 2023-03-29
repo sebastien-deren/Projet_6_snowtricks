@@ -57,9 +57,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
-public function verifyUser(VerifiableUserInterface $user, bool $verified): void
+public function verifyUser(User $user): void
 {
-    $user->setIsVerified($verified);
+    $user->setIsVerified(true);
     $this->save($user,true);
 }
 
