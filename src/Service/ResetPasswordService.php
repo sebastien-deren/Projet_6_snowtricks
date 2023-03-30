@@ -23,22 +23,23 @@ class ResetPasswordService
     }
 
     /**
-     * @param string $mail
+     * @param string $username
      * @param string $addressName
      * @return void
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function ResetPasswordRequest(string $mail, string $addressName): void
+    public function ResetPasswordRequest(string $username, string $addressName): ?string
     {
         try{
 
-            $user = $this->userRepository->findOneBy(['mail' => $mail]) ?? throw new UserNotFoundException();
+            $user = $this->userRepository->findOneBy(['username' => $username]) ?? throw new UserNotFoundException();
         }catch(UserNotFoundException $e){
-            return;
+            dd($e);
         }
         $token = $user->getHash();
         $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->mailerService->sendResetPasswordMail(new Address($user->getMail(), $user->getUsername()), ['address' => $fqAddress]);
+        return $user->getMail();
     }
 
 

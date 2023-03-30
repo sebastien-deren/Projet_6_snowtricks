@@ -22,7 +22,10 @@ class PasswordResetType extends AbstractType
                 ],
                 'mapped'=>false,
             ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class,[
+                'label'=>'changer de Mot de Passe',
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

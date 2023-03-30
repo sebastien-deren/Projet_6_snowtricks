@@ -18,17 +18,15 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Hello an Email have been sent to you ✅</h1>
-
 
         {% if error %}
             <p>{{ error }}</p>
         {% else %}
-            <p>Un lien vous à été envoyé à {{ emailSent }} merci de cliquer dessus pour changer votre mot de
-                passe!</p>
+            <h1>Un Email vous à été envoyé</h1>
+            <p>Mail envoyé à {{ emailSent }} (si vous ne le voyez pas regardez dans vos spam)</p>
         {% endif %}
 
-        <h3>If you want to ReSend the email resubmit this form</h3>
-        {{ form(resetPasswordRequestForm) }}
+        <h3 style="margin-bottom: 2rem;margin-top: 5rem;">Renvoyer un lien :</h3>
+        {% include('reset_password/_form.html.twig') %}
     </div>
 {% endblock %}

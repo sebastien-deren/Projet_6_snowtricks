@@ -18,9 +18,8 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Hello You're here to change Password! ✅</h1>
+        <h1 class="text-center" style="margin-top: 10rem; margin-bottom: 2rem">Reset Your password</h1>
 
-
-            {{ form(resetPasswordRequestForm) }}
+{% include('reset_password/_form.html.twig') %}
     </div>
 {% endblock %}

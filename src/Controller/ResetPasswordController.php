@@ -28,21 +28,22 @@ class ResetPasswordController extends AbstractController
         $form = $this->createForm(PasswordResetRequestType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $mail = $form->get('mail')->getData();
+            $username = $form->get('username')->getData();
             try {
-                $this->service->ResetPasswordRequest($mail, 'app_reset_password_mail');
+                $mail = $this->service->ResetPasswordRequest($username, 'app_reset_password_mail');
             } catch (TransportExceptionInterface $e) {
                 $error = $e->getMessage();
             }
             return $this->render('reset_password/resetEmailSent.html.twig' ,[
-                'resetPasswordRequestForm' => $form->createView(),
+                'resetPasswordForm' => $form->createView(),
                 'emailSent' => $mail ?? false,
+                'username' => $username ?? false,
                 'error' => $error ?? false,
             ]);
         }
         return $this->render('reset_password/index.html.twig', [
             'controller_name' => 'ResetPasswordController',
-            'resetPasswordRequestForm' => $form->createView(),
+            'resetPasswordForm' => $form->createView(),
         ]);
     }
 
