@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->discussionSpaces = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,10 +154,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->messages;
     }
 
-    public function addDiscussionSpace(Message $message): self
+    public function addMessages(Message $message): self
     {
-        if (!$this->discussionSpaces->contains($message)) {
-            $this->discussionSpaces->add($message);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
             $message->setUser($this);
         }
 
@@ -166,7 +166,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDiscussionSpace(Message $message): self
     {
-        if ($this->discussionSpaces->removeElement($message)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
             if ($message->getUser() === $this) {
                 $message->setUser(null);
