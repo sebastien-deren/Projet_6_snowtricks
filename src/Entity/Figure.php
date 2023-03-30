@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enums\FigureTypesEnum;
 use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,7 +18,7 @@ class Figure
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100,unique: true)]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -32,7 +33,8 @@ class Figure
  */
     private ?string $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,unique: true)]
+    #[Assert\Url]
 
     private ?string $slug = null;
 
@@ -77,14 +79,14 @@ class Figure
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?FigureTypesEnum
     {
-        return $this->category;
+        return FigureTypesEnum::tryFrom($this->category);
     }
 
-    public function setCategory(string $category): self
+    public function setCategory(FigureTypesEnum $category): self
     {
-        $this->category = $category;
+        $this->category = $category->value;
 
         return $this;
     }

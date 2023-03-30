@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Figure index{% endblock %}
+
+{% block body %}
+    <h1>Figure index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <th>actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for figure in figures %}
+            <tr>
+                <td>{{ figure.name }}</td>
+                <td>{{ figure.category.value }}</td>
+                <td>
+                    <a href="{{ path('app_figure_show', {'slug': figure.slug}) }}">show</a>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <a href="{{ path('app_figure_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}
