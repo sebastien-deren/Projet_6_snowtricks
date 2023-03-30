@@ -39,13 +39,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\LessThan(255)]
     private ?string $mail = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     #[Assert\Url]
     #[Assert\LessThan(255)]
     private ?string $photo = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
+
+    #[ORM\Column]
+    private ?bool $is_verified = null;
 
     public function __construct()
     {
@@ -172,6 +175,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $message->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): self
+    {
+        $this->is_verified = $is_verified;
 
         return $this;
     }
