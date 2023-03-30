@@ -36,21 +36,21 @@ class AppFixtures extends Fixture
             ->setName('mute')
             ->setDescription('saisie de la carre frontside de la planche entre les deux pieds avec la main avant ')
             //CHANGE THIS WHEN ENUM IS IMPLEMENTED
-            ->setCategory('Grab')
+            ->setCategory('Grabs')
             ->setSlug('mute');
         $manager->persist($mute);
 
         $oneHundredHeighty =(new Figure())
             ->setName('180')
             ->setDescription(' un demi-tour, soit 180 degrés d\'angle ')
-            ->setCategory('rotations')
+            ->setCategory('Rotations')
             ->setSlug('180');
         $manager->persist($oneHundredHeighty);
 
         $frontFlip =(new Figure())
             ->setName('Front Flip')
             ->setDescription('Rotation verticale en avant, il est possible de l\'enchainer avec d\'autre flip ou des grabs')
-            ->setCategory('Flip')
+            ->setCategory('Flips')
             ->setSlug('front-flip');
         $manager->persist($frontFlip);
 
@@ -64,7 +64,7 @@ class AppFixtures extends Fixture
         $oneFootTrick =(new Figure())
             ->setName('One Foot Trick')
             ->setDescription('Figure réalisé avec un pied décroché de la fixation, afin de tendre la jambe, cette figure est extremement dangeureuse pour les ligaments du genoux')
-            ->setCategory('One Foot trick')
+            ->setCategory('One foot tricks')
             ->setSlug('one-foot-trick');
         $manager->persist($oneFootTrick);
 
