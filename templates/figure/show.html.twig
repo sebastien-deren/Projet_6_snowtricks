@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <th>Category</th>
-            <td>{{ figure.category.value }}</td>
+            <td>{{ figure.category.value|default(figure.category) }}</td>
         </tr>
 
         </tbody>
