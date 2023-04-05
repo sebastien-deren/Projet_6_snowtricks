@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="container-lg px-3 px-lg-0">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        <h1 class="text-center">Register</h1>
+
+        <div class="border border-dark rounded d-flex flex-column align-self-center justify-self-center p-3">
+        {{ form_start(registrationForm) }}
+            {% for child in registrationForm.children %}
+                <div class="form-group m-3 mb-5 text-center ">
+                {{ form_row(child) }}
+                </div>
+            {% endfor %}
+        {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
