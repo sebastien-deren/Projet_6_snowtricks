@@ -22,9 +22,9 @@
                 <td>{{ figure.category.value|default(figure.category) }}</td>
                 <td>
                     <a href="{{ path('app_figure_show', {'slug': figure.slug}) }}">show</a>
-{# {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %} to be added when user authentification is implemented #}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}">edit</a>
-{# {% endif %} #}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -34,5 +34,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <a href="{{ path('app_figure_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
