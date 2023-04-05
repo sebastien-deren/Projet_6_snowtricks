@@ -7,13 +7,13 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Category</th>
-                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <th>actions</th>
-                {% endif %}
-            </tr>
+            {% endif %}
+        </tr>
         </thead>
         <tbody>
         {% for figure in figures %}
@@ -23,7 +23,7 @@
                 <td>
                     <a href="{{ path('app_figure_show', {'slug': figure.slug}) }}">show</a>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}">edit</a>
+                        <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}">edit</a>
                     {% endif %}
                 </td>
             </tr>
@@ -35,6 +35,6 @@
         </tbody>
     </table>
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    <a href="{{ path('app_figure_new') }}">Create new</a>
+        <a href="{{ path('app_figure_new') }}">Create new</a>
     {% endif %}
 {% endblock %}

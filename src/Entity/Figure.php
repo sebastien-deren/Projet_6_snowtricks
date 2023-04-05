@@ -34,7 +34,6 @@ class Figure
     private ?string $category = null;
 
     #[ORM\Column(length: 255,unique: true)]
-    #[Assert\Url]
 
     private ?string $slug = null;
 

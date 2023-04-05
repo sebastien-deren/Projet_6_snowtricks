@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/figure')]
 class FigureController extends AbstractController
@@ -23,6 +24,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, FigureService $service): Response
     {
         $figure = new Figure();
@@ -51,6 +53,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/{slug}/edit', name: 'app_figure_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Figure $figure, FigureService $service): Response
     {
         $form = $this->createForm(FigureType::class, $figure);
@@ -69,6 +72,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'app_figure_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {
         if ($this->isCsrfTokenValid('delete'.$figure->getId(), $request->request->get('_token'))) {

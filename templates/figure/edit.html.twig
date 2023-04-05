@@ -11,6 +11,8 @@
 
 
 
-    {{ include('figure/_delete_form.html.twig') }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ include('figure/_delete_form.html.twig') }}
+    {% endif %}
 
 {% endblock %}
