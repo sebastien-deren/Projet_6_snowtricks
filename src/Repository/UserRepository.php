@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Interface\VerifiableUserInterface;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -55,6 +57,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+public function verifyUser(User $user): void
+{
+    $user->setIsVerified(true);
+    $this->save($user,true);
+}
 
 //    /**
 //     * @return User[] Returns an array of User objects
