@@ -25,7 +25,7 @@ class RegistrationFormType extends AbstractType
             ->add('username', TextType::class, [
                 'constraints' => [
                     new NotBlank(['message' => 'you have to enter a username']),
-                    new Length(['min' => 6])
+                    new Length(['min' => 6]),
                 ],
 
             ])
@@ -60,6 +60,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['Default', 'registration']
         ]);
     }
 }

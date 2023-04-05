@@ -4,10 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\EmailVerifier;
-use App\Service\Interface\ConfirmEmailInterface;
-use App\Service\Interface\UserRegisterServiceInterface;
-use App\Service\Interface\UserVerifyMailServiceInterface;
 use App\Service\MailerService;
 use App\Service\RegisterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,8 +39,8 @@ class RegistrationController extends AbstractController
                 $this->addFlash('error', $transportException->getMessage());
                 return $this->redirectToRoute('app_register');
             }
-
-            return $this->redirectToRoute('_profiler_home');
+            $this->addFlash('success','Vous êtes Inscrit!');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
