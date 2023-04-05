@@ -17,10 +17,20 @@
         {% endblock %}
     </head>
     <body>
+    <div>
+        {% for type, messages in app.flashes %}
+            <div class="alert alert-{{ type }}">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
     <nav>
         <ul>
             <li><a href="{{ path('app_homepage') }}">Homepage</a> </li>
             <li><a href="{{ path('app_login') }}">login</a> </li>
+            <li><a href="{{ path('app_register') }}">register</a> </li>
         </ul>
     </nav>
         {% block body %}{% endblock %}

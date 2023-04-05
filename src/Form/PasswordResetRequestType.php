@@ -29,6 +29,8 @@ class PasswordResetRequestType extends AbstractType
                 'label'=>'envoyez le lien'
 
             ])
+            ->remove('mail')
+            ->remove('password',)
         ;
     }
 

@@ -59,7 +59,7 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->upgradePassword($user, $form->get('plain_password')->getData());
             $this->addFlash('success','password has been updated');
-            return  new RedirectResponse('app_login');
+            return  $this->redirectToRoute('app_login');
         }
         return $this->render('reset_password/resetPassword.html.twig', [
             'controller_name' => 'ResetPasswordController',
