@@ -35,7 +35,8 @@
     <div >
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <h3>Discutez de cette figure!</h3>
-            {{ include('message/_create_form.html.twig') }}
+        {% endif %}
+           {#  {{ include('message/_create_form.html.twig') }}
 
         {% endif %}
         {% for message in figure.messages %}
@@ -44,6 +45,7 @@
             <td>message.content</td>
             <td>message.createdAt</td>
         </tr>
-        {% endfor %}
+        {% endfor %}#}
     </div>
 {% endblock %}
+
