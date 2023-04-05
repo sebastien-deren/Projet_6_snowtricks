@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,12 +43,19 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        //this page is our homepage created in Create_Homepage#21
-        return new RedirectResponse('app_homepage');
+        /**
+         *
+         * this page is our homepage created in Create_Homepage
+         * because we are not in a controller we do not have access to
+         * the ->redirectToRoute method and we have to put a "solid URL"
+         */
+        return  new RedirectResponse('/');
     }
 
     protected function getLoginUrl(Request $request): string
