@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\Entity\Message;
 use App\Form\FigureType;
+use App\Form\MessageType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
+use App\Service\CreateMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,11 +47,19 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_figure_show', methods: ['GET'])]
-    public function show(Figure $figure): Response
+    #[Route('/{slug}', name: 'app_figure_show', methods: ['GET','POST'])]
+    public function show(Request $request, Figure $figure, CreateMessage $createMessage): Response
     {
+        $message = new Message();
+        $form = $this->createForm(MessageType::class,$message);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->isGranted('IS_AUTHENTICATED');
+            $createMessage($message,$this->getUser(),$figure);
+        }
         return $this->render('figure/show.html.twig', [
             'figure' => $figure,
+            'form' => $form,
         ]);
     }
 

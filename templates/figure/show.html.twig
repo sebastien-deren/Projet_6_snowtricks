@@ -35,17 +35,13 @@
     <div >
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <h3>Discutez de cette figure!</h3>
-        {% endif %}
-           {#  {{ include('message/_create_form.html.twig') }}
+
+           {{ include('message/_form.html.twig') }}
 
         {% endif %}
-        {% for message in figure.messages %}
-        <tr>
-            <th>message.user.username</th>
-            <td>message.content</td>
-            <td>message.createdAt</td>
-        </tr>
-        {% endfor %}#}
+        {% set messages = figure.messages %}
+        {{ include('message/show.html.twig') }}
+
     </div>
 {% endblock %}
 

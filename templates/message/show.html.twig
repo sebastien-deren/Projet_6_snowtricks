@@ -1,0 +1,12 @@
+
+<table class="table">
+    <tbody>
+    {% for message in messages %}
+        <tr>
+            <th>{{ message.user.username }}</th>
+            <td>{{ message.content }}</td>
+            <td>{{ message.createdAt|date }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
