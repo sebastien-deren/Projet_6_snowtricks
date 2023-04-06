@@ -7,6 +7,8 @@ use App\Form\MessageType;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 
+use App\Service\CreateMessage;
+use App\Service\FrontMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,21 +19,18 @@ class HomepageController extends AbstractController
     #[Route('/homepage', name: 'app_homepage', methods: ['GET', 'POST'])]
     #[Route('/', name: 'app_homepage', methods: ['GET', 'POST'])]
 
-    public function index(Request $request, MessageRepository $messageRepository, UserRepository $userRepository): Response
+    public function index(Request $request,CreateMessage $createMessage,FrontMessage $frontMessage): Response
     {
-        $messages = $messageRepository->findBy(["figure" => null]);
-        $message = (new Message())
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setUser($this->getUser() ?? $userRepository->findOneBy(["username" => 'green']))
-            ->setFigure(null);
+        $messages = $frontMessage();
+        /*now we get all we'll need to make it so not all comment show either by hiding them with js or getting them little by little
+        with a simple ajax request*/
+        $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //to move to a service or repo
-
-            $messageRepository->save($message, true);
-
+            $this->isGranted('IS_AUTHENTICATED');
+            $createMessage($message,$this->getUser());
         }
 
         return $this->render('homepage/index.html.twig', [

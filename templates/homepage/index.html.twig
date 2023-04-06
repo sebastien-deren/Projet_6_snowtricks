@@ -20,17 +20,10 @@
     <div class="example-wrapper">
         {% if messages %}
             <h2>Espace de discussions</h2>
-            {# {% if is_granted('IS_AUTHENTICATED') %} #}
-            {% include('message/_form_creation.html.twig') %}
-            {# {% endif %} #}
-            <table>
-                {% for message in messages %}
-                    <tr>
-                        <th>{{ message.User.username }}{{ message.createdAt|date }}</th>
-                        <td>{{ message.content }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            {% if is_granted('IS_AUTHENTICATED') %}
+            {% include('message/_form.html.twig') %}
+            {% endif %}
+            {% include('message/show.html.twig') %}
         {% endif %}
     </div>
 {% endblock %}
