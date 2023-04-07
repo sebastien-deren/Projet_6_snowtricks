@@ -4,6 +4,9 @@
 
 {% block body %}
     <h1>Edit Figure</h1>
+    {% for media in figure.media %}
+        {{ media.name }}
+    {% endfor %}
 
     {{ include('figure/_form.html.twig', {'button_label': 'Update'}) }}
 

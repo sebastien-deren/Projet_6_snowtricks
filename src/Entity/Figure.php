@@ -37,7 +37,7 @@ class Figure
 
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $media;
 
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class)]

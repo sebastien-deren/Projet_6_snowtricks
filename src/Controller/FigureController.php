@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\Entity\Media;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
+use App\Service\MediaService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,14 +27,13 @@ class FigureController extends AbstractController
 
     #[Route('/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, FigureService $service): Response
+    public function new(Request $request, FigureService $service,MediaService $mediaService): Response
     {
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $service->saveFigure($figure);
 
             return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
@@ -54,12 +55,14 @@ class FigureController extends AbstractController
 
     #[Route('/{slug}/edit', name: 'app_figure_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Figure $figure, FigureService $service): Response
+    public function edit(Request $request, Figure $figure, FigureService $service,MediaService $mediaService): Response
     {
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $service->saveFigure($figure, true);
 
             return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);

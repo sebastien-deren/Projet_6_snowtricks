@@ -15,7 +15,7 @@ class MailerService
     public function __construct(
         private readonly MailerInterface       $mailer,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly array                 $botMail = ['address' => 'default@example.com', 'name' => 'Mail bot'],
+        private readonly array                 $botMail ,
     )
     {
         $this->email = (new TemplatedEmail())->from(new Address($this->botMail['address'], $this->botMail['name']));
