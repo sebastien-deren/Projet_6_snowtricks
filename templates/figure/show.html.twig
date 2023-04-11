@@ -23,6 +23,10 @@
 
         </tbody>
     </table>
+    {% for mediaEntity in figure.media %}
+        {% set content = mediaEntity.type.value is same as("IMAGE")?"Image":"Video" %}
+        <li>{% include 'media/_media_'~ content ~ '.html.twig'%}</li>
+    {% endfor %}
 
     <a href="{{ path('app_figure_index') }}">back to list</a>
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}

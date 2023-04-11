@@ -19,9 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MediaType extends AbstractType
 {
-    public function __construct(private MediaService $service)
-    {
-    }
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,6 +27,9 @@ class MediaType extends AbstractType
             ->add('file',FileType::class,[
                 'required'=>false,
 
+            ])
+            ->add('video',UrlType::class,[
+                'required'=>false,
             ])
         ;
     }
@@ -38,18 +39,5 @@ class MediaType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Media::class,
         ]);
-    }
-    public function onSubmitData(FormEvent $event):void{
-
-        $media = $event->getData();
-        $form = $event->getForm();
-        if(!$media){
-            return;
-        }
-        if(!isset($media['image'])){
-            return;
-        }
-        $newFile = $this->service->uploadImage($media['image']);
-        $form->setData([$newFile]);
     }
 }

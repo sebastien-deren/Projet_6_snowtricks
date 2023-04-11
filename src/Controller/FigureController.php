@@ -35,7 +35,7 @@ class FigureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveFigure($figure);
-            return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_figure_show', ["slug"=>$figure->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('figure/new.html.twig', [
@@ -63,7 +63,7 @@ class FigureController extends AbstractController
 
             $service->saveFigure($figure);
 
-            return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_figure_show', ["slug"=>$figure->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('figure/edit.html.twig', [

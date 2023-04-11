@@ -7,8 +7,10 @@
     data-prototype="{{ form_widget(form.media.vars.prototype)|e('html_attr') }}">
     {% for media in form.media %}
         {% set mediaEntity = media.vars.value %}
-        <li>{% include 'media/_media_'~ mediaEntity.type.value ~ '.html.twig'%}</li>
-        <li>{% include 'media/_form_row_'~ mediaEntity.type.value ~ '.html.twig' %}</li>
+            {% set content = mediaEntity.type.value is same as("IMAGE")?"Image":"Video" %}
+        <li>{% include 'media/_media_'~ content ~ '.html.twig'%}</li>
+        <li>{{ form_row(media.file) }}{{ form_row(media.video) }}</li>
+
 
     {% endfor %}
 </ul>

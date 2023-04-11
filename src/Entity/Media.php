@@ -25,7 +25,7 @@ class Media
 
     #[ORM\Column(length: 255)]
     //#[Assert\NotBlank]
-    private ?string $type = 'null';
+    private ?string $type = '';
 
     #[ORM\Column(length: 255, nullable: true)]
     //#[Assert\Url]
@@ -36,11 +36,38 @@ class Media
     private ?Figure $figure = null;
 
 
+    #[Assert\Url]
+    private ?string $video =null;
+
+    #[Assert\Image]
     private ?UploadedFile $file =null;
     private ?string $tempName =null;
 
+    /**
+     * @return string|null
+     */
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param string|null $video
+     */
+    public function setVideo(?string $video): self
+    {
+        $this->video = $video;
+        if (null !== $this->url) {
+            $this->tempName = $this->url;
+        }
+        $this->setType(MediaEnum::VIDEO);
+        return $this;
+    }
     public function setFile(UploadedFile $file): self
     {
+        if($this->name === $file->getClientOriginalName()){
+            return $this;
+        }
         $this->file = $file;
         $this->setType(MediaEnum::IMAGE);
         $this->name = $file->getClientOriginalName();
@@ -55,7 +82,7 @@ class Media
         return $this->file;
     }
 
-    public function setTempName(string $name): self
+    public function setTempName(?string $name): self
     {
         $this->tempName = $name;
         return $this;
@@ -89,7 +116,7 @@ class Media
     public
     function getType(): MediaEnum
     {
-        return MediaEnum::tryFrom($this->type)??MediaEnum::DEFAULT;
+        return MediaEnum::tryFrom($this->type);
     }
 
     public
