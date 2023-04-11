@@ -8,6 +8,7 @@ use App\Service\Media\MediaFileManager;
 use App\Service\Media\MediaUploader;
 use App\Service\MediaService;
 use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
@@ -43,9 +44,9 @@ class MediaListener
         $this->fileManager->deleteFile($media->getTempName());
     }
 
-
+//do not work don't know why
     #[PostRemove]
-    public function postRemove(Media $media, PreRemoveEventArgs $eventArgs): void
+    public function postDelete(Media $media, PostRemoveEventArgs $eventArgs): void
     {
         $this->fileManager->deleteFile($media->getUrl());
     }

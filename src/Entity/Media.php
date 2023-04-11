@@ -56,6 +56,9 @@ class Media
      */
     public function setVideo(?string $video): self
     {
+        if($this->url === $video){
+            return $this;
+        }
         $this->video = $video;
         if (null !== $this->url) {
             $this->tempName = $this->url;
