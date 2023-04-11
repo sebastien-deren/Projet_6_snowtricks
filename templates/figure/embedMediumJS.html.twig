@@ -1,4 +1,22 @@
 <script>
+    const addTagFormDeleteLink = (item) => {
+        const removeFormButton = document.createElement('button');
+        removeFormButton.innerText = 'Delete this Media';
+        removeFormButton.classList.add("btn", "btn-warning");
+
+        item.append(removeFormButton);
+
+        removeFormButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            item.remove();
+        });
+    }
+
+    document
+        .querySelectorAll('ul.medium li')
+        .forEach((media) => {
+            addTagFormDeleteLink(media)
+        })
 
     const addFormToCollection = (e) => {
         const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
@@ -16,9 +34,10 @@
         collectionHolder.appendChild(item);
 
         collectionHolder.dataset.index++;
+        addTagFormDeleteLink(item);
     };
     document
-        .querySelectorAll('.add_image')
+        .querySelectorAll('.add_media')
         .forEach(btn => {
             btn.addEventListener("click", addFormToCollection)
         });
