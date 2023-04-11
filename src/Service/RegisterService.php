@@ -19,6 +19,7 @@ class RegisterService
     function createNewUser(User $user, string $plainPassword): void
     {
         $newPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+        $user->setPhoto("https://avatar.vercel.sh/".$user->getUsername());
         $this->userRepository->upgradePassword($user, $newPassword);
 
     }
