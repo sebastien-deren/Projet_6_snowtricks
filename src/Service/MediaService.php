@@ -36,22 +36,7 @@ class MediaService
         return $newFilename;
     }
 
-    public function save(Media $media):void{
-        $this->repository->save($media,true);
-    }
-    private function linkCleaner(string $link): string
-    {
-        $link = u($link);
-        if ($link->containsAny('youtu')) {
-            return $this->youtubeEmbedder($link);
-        }
-        if ($link->containsAny('dailymotion')) {
-            return $this->dailyMotionEmbedder($link);
-        }
-        return $link;
-    }
-
-    private function youtubeEmbedder(UnicodeString $link): string
+    public function youtubeEmbedder(UnicodeString $link): string
     {
         if ($link->containsAny('/embed')) {
             return $link;
@@ -64,7 +49,7 @@ class MediaService
 
     }
 
-    private function dailyMotionEmbedder(UnicodeString $link): string
+    public function dailyMotionEmbedder(UnicodeString $link): string
     {
         if ($link->containsAny('/embed/')) {
             return $link;

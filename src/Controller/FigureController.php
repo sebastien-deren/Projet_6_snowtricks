@@ -27,7 +27,7 @@ class FigureController extends AbstractController
 
     #[Route('/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, FigureService $service,MediaService $mediaService): Response
+    public function new(Request $request, FigureService $service): Response
     {
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
@@ -35,7 +35,6 @@ class FigureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveFigure($figure);
-
             return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,15 +54,14 @@ class FigureController extends AbstractController
 
     #[Route('/{slug}/edit', name: 'app_figure_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Figure $figure, FigureService $service,MediaService $mediaService): Response
+    public function edit(Request $request, Figure $figure, FigureService $service): Response
     {
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            $service->saveFigure($figure, true);
+            $service->saveFigure($figure);
 
             return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -79,7 +77,7 @@ class FigureController extends AbstractController
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {
         if ($this->isCsrfTokenValid('delete'.$figure->getId(), $request->request->get('_token'))) {
-            $service->removeFigure($figure, true);
+            $service->removeFigure($figure);
         }
 
         return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);

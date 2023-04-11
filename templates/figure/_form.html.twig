@@ -2,7 +2,6 @@
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
     {{ form_row(form.category) }}
-    {{ dump(form.media) }}
 <ul class="medium"
     data-index="{{ form.media|length > 0 ? form.media|last.vars.name + 1 : 0 }}"
     data-prototype="{{ form_widget(form.media.vars.prototype)|e('html_attr') }}">
