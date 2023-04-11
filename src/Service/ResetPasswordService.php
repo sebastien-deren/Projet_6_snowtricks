@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Repository\UserRepository;
 use App\Service\Interfaces\MailPasswordInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,7 +20,8 @@ class ResetPasswordService
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly UserRepository              $userRepository,
         private readonly UrlGeneratorInterface       $urlGenerator,
-        private readonly MailerService       $mailerService)
+        private readonly MailerService       $mailerService,
+        private LoggerInterface $logger)
     {
     }
 
@@ -26,15 +29,15 @@ class ResetPasswordService
      * @param string $username
      * @param string $addressName
      * @return void
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
-    public function ResetPasswordRequest(string $username, string $addressName): ?string
+    public function resetPasswordRequest(string $username, string $addressName): ?string
     {
         try{
 
             $user = $this->userRepository->findOneBy(['username' => $username]) ?? throw new UserNotFoundException();
         }catch(UserNotFoundException $e){
-            dd($e);
+            $this->logger->alert($e);
         }
         $token = $user->getHash();
         $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);

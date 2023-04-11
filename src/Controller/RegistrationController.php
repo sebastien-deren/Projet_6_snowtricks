@@ -22,7 +22,7 @@ class RegistrationController extends AbstractController
 {
 
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register',methods:['GET','POST'])]
     //create a register Interface
     public function register(Request $request, RegisterService $registerService, MailerService $confirmEmail): Response
     {
@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email/{id}/{token}', name: 'app_verify_email')]
+    #[Route('/verify/email/{id}/{token}', name: 'app_verify_email',methods:'GET')]
     public function verifyUserEmail(User $user, string $token, RegisterService $registerService): Response
     {
 
