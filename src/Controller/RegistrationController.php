@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Security\EmailVerifier;
+use App\Service\Interface\ConfirmEmailInterface;
+use App\Service\Interface\UserRegisterServiceInterface;
+use App\Service\Interface\UserVerifyMailServiceInterface;
 use App\Service\MailerService;
 use App\Service\RegisterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
