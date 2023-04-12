@@ -35,7 +35,7 @@
 
     <div class="d-flex flex-column justify-content-around my-3" style="min-height: 20rem">
         <h2>Description :</h2>
-        <p>{{ figure.description }}</p>
+        <p>{{ figure.description|nl2br }}</p>
         <div>
             <span class="badge bg-primary">{{ figure.category.value|default(figure.category) }}</span>
         </div>

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Figure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,11 +43,13 @@ class FigureRepository extends ServiceEntityRepository
 
     public function findUniqueSlug(string $slug): string
     {
-        $findSlug =$slug;
+
         for ($i = 0; null !== $this->findOneBy(['slug' => $findSlug]); $i++) {
             $findSlug = $slug . $i;
         }
         return $findSlug;
     }
+
+
 
 }
