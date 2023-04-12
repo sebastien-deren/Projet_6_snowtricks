@@ -39,4 +39,13 @@ class FigureRepository extends ServiceEntityRepository
         }
     }
 
+    public function findUniqueSlug(string $slug): string
+    {
+        $findSlug =$slug;
+        for ($i = 0; null !== $this->findOneBy(['slug' => $findSlug]); $i++) {
+            $findSlug = $slug . $i;
+        }
+        return $findSlug;
+    }
+
 }
