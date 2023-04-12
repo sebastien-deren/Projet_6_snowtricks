@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="{{ path('app_homepage') }}">Homepage</a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link"  href="{{ path('app_figure_index')~'#figures' }}">Figures</a>
+                    <a class="nav-link"  href="{{ path('app_figure_index') }}">Figures</a>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED') %}
                 <li class="nav-item mx-2">
