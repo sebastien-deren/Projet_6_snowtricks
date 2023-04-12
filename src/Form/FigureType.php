@@ -6,6 +6,7 @@ use App\Entity\Figure;
 use App\Enums\FigureTypesEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,10 +16,12 @@ class FigureType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description',TextareaType::class,[
+                'attr'=>['rows'=>10],
+            ])
             ->add('category',EnumType::class, ['class'=>FigureTypesEnum::class,
                 'choice_label' =>fn(FigureTypesEnum $choice) => $choice->value,
-                'expanded'=>true])
+                ])
         ;
     }
 

@@ -12,18 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/figure')]
+
 class FigureController extends AbstractController
 {
     #[Route('/', name: 'app_figure_index', methods: ['GET'])]
+    #[Route('/homepage', name: 'app_homepage',methods:'GET')]
     public function index(FigureRepository $figureRepository): Response
     {
-        return $this->render('figure/index.html.twig', [
+        return $this->render('homepage/index.html.twig', [
             'figures' => $figureRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
+    #[Route('/figure/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, FigureService $service): Response
     {
@@ -44,7 +45,7 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_figure_show', methods: ['GET'])]
+    #[Route('/figure/{slug}', name: 'app_figure_show', methods: ['GET'])]
     public function show(Figure $figure): Response
     {
         return $this->render('figure/show.html.twig', [
@@ -52,7 +53,7 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/edit', name: 'app_figure_edit', methods: ['GET', 'POST'])]
+    #[Route('/figure/{slug}/edit', name: 'app_figure_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Figure $figure, FigureService $service): Response
     {
@@ -71,7 +72,7 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_figure_delete', methods: ['POST'])]
+    #[Route('/figure/{slug}', name: 'app_figure_delete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {

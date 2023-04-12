@@ -25,14 +25,15 @@
             </div>
         {% endfor %}
     </div>
-    <nav>
-        <ul>
-            <li><a href="{{ path('app_homepage') }}">Homepage</a> </li>
-            <li><a href="{{ path('app_login') }}">login</a> </li>
-            <li><a href="{{ path('app_register') }}">Register</a> </li>
-            <li><a href="{{ path('app_figure_index') }}">Figures</a> </li>
-        </ul>
-    </nav>
+        {% block navbar %}
+            {% include 'navBar.html.twig' %}
+        {% endblock %}
+
+
         {% block body %}{% endblock %}
+        {% block footer %}
+            {% include 'footer.html.twig' %}
+        {% endblock %}
     </body>
+
 </html>

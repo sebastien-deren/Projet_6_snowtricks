@@ -61,7 +61,7 @@ class Figure
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->name = ucfirst(trim($name));
 
         return $this;
     }
@@ -73,7 +73,7 @@ class Figure
 
     public function setDescription(string $description): self
     {
-        $this->description = $description;
+        $this->description = ucfirst(trim($description));
 
         return $this;
     }
