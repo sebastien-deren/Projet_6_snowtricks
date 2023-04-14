@@ -76,8 +76,7 @@ class FigureController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {
-        $id= 'delete'.$figure->getId();
-        if ($this->isCsrfTokenValid($id, $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) {
             $service->removeFigure($figure, true);
         }
 
