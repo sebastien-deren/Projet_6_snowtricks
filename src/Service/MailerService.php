@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use App\Entity\User;
@@ -25,7 +26,7 @@ class MailerService
      * @param Address $address
      * @param array $context
      * @return void
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public
     function sendResetPasswordMail(Address $address, array $context): void
@@ -48,7 +49,7 @@ class MailerService
      * @param User $user
      * @param string $verifiedEmailRouteName
      * @return void
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public
     function sendConfirmation(User $user, string $verifiedEmailRouteName): void
