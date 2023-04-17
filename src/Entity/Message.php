@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\DiscussionSpaceRepository;
+use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DiscussionSpaceRepository::class)]
+#[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
 {
     #[ORM\Id]
@@ -20,7 +20,7 @@ class Message
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(inversedBy: 'message')]
+    #[ORM\ManyToOne(targetEntity:'User', inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
@@ -28,6 +28,9 @@ class Message
     private ?Figure $figure = null;
 
 
+    public function __construct(){
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -39,12 +42,6 @@ class Message
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     public function getContent(): ?string
     {

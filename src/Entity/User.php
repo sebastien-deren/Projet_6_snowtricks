@@ -6,11 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username', groups: ['register'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -29,30 +31,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
     #[Assert\NotCompromisedPassword]
-    #[Assert\Length(6,255)]
+    #[Assert\Length(min:6,max:255)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\Email]
-    #[Assert\LessThan(255)]
+    #[Assert\Length(max:255)]
     private ?string $mail = null;
 
     #[ORM\Column(length: 255,nullable: true)]
     #[Assert\Url]
-    #[Assert\LessThan(255)]
+    #[Assert\Length(max:255)]
+
     private ?string $photo = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
 
-    #[ORM\Column]
-    private ?bool $is_verified = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $isVerified = false;
+
 
     public function __construct()
     {
-        $this->discussionSpaces = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,10 +122,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials():void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getMail(): ?string
@@ -159,8 +161,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addDiscussionSpace(Message $message): self
     {
-        if (!$this->discussionSpaces->contains($message)) {
-            $this->discussionSpaces->add($message);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
             $message->setUser($this);
         }
 
@@ -169,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDiscussionSpace(Message $message): self
     {
-        if ($this->discussionSpaces->removeElement($message)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
             if ($message->getUser() === $this) {
                 $message->setUser(null);
@@ -179,15 +181,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsVerified(): ?bool
+    public function isVerified(): ?bool
     {
-        return $this->is_verified;
+        return $this->isVerified;
     }
 
-    public function setIsVerified(bool $is_verified): self
+    public function setIsVerified(bool $isVerified): self
     {
-        $this->is_verified = $is_verified;
+        $this->isVerified = $isVerified;
 
         return $this;
+    }
+    public function getHash():string{
+        return hash('sha256', $this->getId() . $this->getUsername());
     }
 }

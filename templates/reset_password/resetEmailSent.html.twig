@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ResetPasswordController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div class="example-wrapper">
+
+        {% if error %}
+            <p>{{ error }}</p>
+        {% else %}
+            <h1>Un Email vous à été envoyé</h1>
+            <p>Mail envoyé à {{ emailSent }} (si vous ne le voyez pas regardez dans vos spam)</p>
+        {% endif %}
+
+        <h3 style="margin-bottom: 2rem;margin-top: 5rem;">Renvoyer un lien :</h3>
+        {% include('reset_password/_form.html.twig') %}
+    </div>
+{% endblock %}

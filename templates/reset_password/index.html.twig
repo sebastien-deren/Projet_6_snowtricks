@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomepageController!{% endblock %}
+{% block title %}Hello ResetPasswordController!{% endblock %}
 
 {% block body %}
     <style>
@@ -18,12 +18,8 @@
     </style>
 
     <div class="example-wrapper">
-        {% if messages %}
-            <h2>Espace de discussions</h2>
-            {% if is_granted('IS_AUTHENTICATED') %}
-            {% include('message/_form.html.twig') %}
-            {% endif %}
-            {% include('message/show.html.twig') %}
-        {% endif %}
+        <h1 class="text-center" style="margin-top: 10rem; margin-bottom: 2rem">Reset Your password</h1>
+
+{% include('reset_password/_form.html.twig') %}
     </div>
 {% endblock %}
