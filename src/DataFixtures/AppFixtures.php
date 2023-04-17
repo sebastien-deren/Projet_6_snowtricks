@@ -16,7 +16,6 @@ class AppFixtures extends Fixture
     public function __construct(private readonly PasswordHasherFactoryInterface $passwordHasher){}
     public function load(ObjectManager $manager): void
     {
-
         $faker = Faker\Factory::create('fr_FR');
         $sebastien = (new User())
             ->setMail('sebastien.d@gmail.com')
@@ -40,8 +39,6 @@ class AppFixtures extends Fixture
             ->setCategory('Grabs')
             ->setSlug('mute');
         $manager->persist($mute);
-
-
 
         $oneHundredHeighty =(new Figure())
             ->setName('180')
@@ -71,11 +68,11 @@ class AppFixtures extends Fixture
             ->setSlug('one-foot-trick');
         $manager->persist($oneFootTrick);
 
-       for ($i=0;$i<5;$i++){
-           $comment=(new Message())->setContent($faker->text())
-               ->setUser(rand(0,1)?$green:$sebastien);
-           $manager->persist($comment);
-       }
+        for ($i=0;$i<5;$i++){
+            $comment=(new Message())->setContent($faker->text())
+                ->setUser(rand(0,1)?$green:$sebastien);
+            $manager->persist($comment);
+        }
 
 
 

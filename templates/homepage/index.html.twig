@@ -16,4 +16,13 @@
     </div>
 
     {% include "figure/_figureList.html.twig" %}
+    <div class="example-wrapper">
+        {% if messages %}
+            <h2>Espace de discussions</h2>
+            {% if is_granted('IS_AUTHENTICATED') %}
+                {% include('message/_form.html.twig') %}
+            {% endif %}
+            {% include('message/show.html.twig') %}
+        {% endif %}
+    </div>
 {% endblock %}
