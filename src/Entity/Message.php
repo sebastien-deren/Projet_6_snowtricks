@@ -29,6 +29,9 @@ class Message
     private ?Figure $figure = null;
 
 
+    public function __construct(){
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -40,12 +43,6 @@ class Message
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     public function getContent(): ?string
     {
