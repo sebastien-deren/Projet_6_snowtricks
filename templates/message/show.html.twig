@@ -2,6 +2,7 @@
     {% for message in messages %}
         <tr>
             <td><img src="{{ message.User.photo }}" alt="{{ message.User.username }} photo"/></td>
+
             <th>{{ message.User.username }}{{ message.createdAt|date }}</th>
             <td>{{ message.content }}</td>
         </tr>
