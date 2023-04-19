@@ -16,6 +16,7 @@ class AppFixtures extends Fixture
     public function __construct(private readonly PasswordHasherFactoryInterface $passwordHasher){}
     public function load(ObjectManager $manager): void
     {
+
         $faker = Faker\Factory::create('fr_FR');
         $sebastien = (new User())
             ->setMail('sebastien.d@gmail.com')
@@ -39,6 +40,8 @@ class AppFixtures extends Fixture
             ->setCategory('Grabs')
             ->setSlug('mute');
         $manager->persist($mute);
+
+
 
         $oneHundredHeighty =(new Figure())
             ->setName('180')
