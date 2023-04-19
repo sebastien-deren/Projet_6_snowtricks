@@ -22,7 +22,3 @@
 ###> DB/Data ###
 docker/
 ###< Db/Data ###
-
-###> intellij/congig ###
-.idea/
-###<intellij/config ###

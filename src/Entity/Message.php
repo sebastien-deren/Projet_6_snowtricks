@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,6 +42,7 @@ class Message
     {
         return $this->createdAt;
     }
+
 
     public function getContent(): ?string
     {

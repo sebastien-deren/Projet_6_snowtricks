@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
-use App\Entity\Message;
 use App\Form\FigureType;
-use App\Form\MessageType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
+use App\Entity\Message;
+use App\Form\MessageType;
 use App\Service\CreateMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/figure')]
 class FigureController extends AbstractController
 {
-    #[Route('/', name: 'app_figure_index', methods: ['GET'])]
+    #[Route('', name: 'app_figure_index', methods: ['GET'])]
+
     public function index(FigureRepository $figureRepository): Response
     {
         return $this->render('figure/index.html.twig', [
@@ -86,7 +87,7 @@ class FigureController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$figure->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) {
             $service->removeFigure($figure, true);
         }
 

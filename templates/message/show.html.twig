@@ -1,12 +1,10 @@
-
-<table class="table">
-    <tbody>
+<table>
     {% for message in messages %}
         <tr>
-            <th>{{ message.user.username }}</th>
+            <td><img src="{{ message.User.photo }}" alt="{{ message.User.username }} photo"/></td>
+
+            <th>{{ message.User.username }}{{ message.createdAt|date }}</th>
             <td>{{ message.content }}</td>
-            <td>{{ message.createdAt|date }}</td>
         </tr>
     {% endfor %}
-    </tbody>
 </table>
