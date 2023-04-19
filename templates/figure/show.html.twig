@@ -40,7 +40,17 @@
             <span class="badge bg-primary">{{ figure.category.value|default(figure.category) }}</span>
         </div>
     </div>
+    <div >
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <h3>Discutez de cette figure!</h3>
 
+            {{ include('message/_form.html.twig') }}
+
+        {% endif %}
+        {% set messages = figure.messages %}
+        {{ include('message/show.html.twig') }}
+
+    </div>
 
     {% endblock %}
 
