@@ -41,6 +41,8 @@ class AppFixtures extends Fixture
             ->setSlug('mute');
         $manager->persist($mute);
 
+
+
         $oneHundredHeighty =(new Figure())
             ->setName('180')
             ->setDescription(' un demi-tour, soit 180 degrés d\'angle ')
@@ -71,7 +73,6 @@ class AppFixtures extends Fixture
 
        for ($i=0;$i<5;$i++){
            $comment=(new Message())->setContent($faker->text())
-
                ->setUser(rand(0,1)?$green:$sebastien);
            $manager->persist($comment);
        }
