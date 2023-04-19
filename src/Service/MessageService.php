@@ -15,9 +15,6 @@ class MessageService
     {
     }
 
-    /**
-     * @return Message[]
-     */
     public function displayFront(int $itemByPage =0): array
     {
         $messages = $this->repository->findBy(["figure" => null],["createdAt"=>"DESC"]);
