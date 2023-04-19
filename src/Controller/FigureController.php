@@ -60,7 +60,7 @@ class FigureController extends AbstractController
         }
         return $this->render('figure/show.html.twig', [
             'figure' => $figure,
-            'form' => $form,
+            'formMessage' => $form,
         ]);
     }
 
