@@ -16,7 +16,7 @@ class MessageService
     /**
      * @return Message[]
      */
-    public function DisplayFront(): array
+    public function displayFront(): array
     {
         return $this->repository->findBy(["figure" => null]);
     }
