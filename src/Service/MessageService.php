@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\MessageDTO;
 use App\Entity\Figure;
 use App\Entity\Message;
 use App\Entity\User;
@@ -16,9 +17,14 @@ class MessageService
     /**
      * @return Message[]
      */
-    public function displayFront(): array
+    public function DisplayFront(int $itemByPage =0): array
     {
-        return $this->repository->findBy(["figure" => null]);
+        $messages = $this->repository->findBy(["figure" => null],["createdAt"=>"DESC"]);
+        $messages=  array_map((fn($args) => new MessageDTO($args)),$messages);
+        if(0===$itemByPage){
+            return [0=>$messages];
+        }
+        return array_chunk($messages,$itemByPage);
     }
 
     public function create(Message $message, User $user, Figure $figure = null): void
