@@ -12,14 +12,7 @@ class FigureService
 
     public function saveFigure(Figure $figure): void
     {
-       // $this->createSlug($figure);
         $this->repository->save($figure,true);
-    }
-    private function createSlug(Figure $figure): void
-    {
-        $slug = $this->slugger->slug($figure->getName());
-        $slug = $this->repository->findUniqueSlug($slug);
-        $figure->setSlug($slug);
     }
     public function removeFigure(Figure $figure): void
     {
