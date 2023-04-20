@@ -41,9 +41,9 @@
             </div>
         </div>
         <div>
+            <a  class="btn btn-primary" href="{{ path('app_media_new', {'slug': figure.slug}) }}">Add a new Figure</a>
             {% for mediaEntity in figure.media %}
-                {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
-                {% include 'media/_media_'~ content ~ '.html.twig' %}
+                {% include ('media/_show.html.twig') %}
             {% endfor %}
         </div>
         <div>

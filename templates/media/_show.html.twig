@@ -1,0 +1,8 @@
+{% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
+<card>
+    {% include 'media/_media_'~ content ~ '.html.twig' %}
+    <div class="card-text d-flex flex-row justify-content-evenly" style="width: 560px">
+        <a class="btn btn-warning " href="{{ path('app_media_edit', {'id': mediaEntity.id, 'slug':figure.slug }) }}">edit</a>
+        {{ include('media/_delete_form.html.twig') }}
+    </div>
+</card>

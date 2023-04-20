@@ -1,24 +1,20 @@
 <?php
 
-namespace App\Listener;
+namespace App\EventSubscriber;
 
 use App\Entity\Media;
-use App\Enums\MediaEnum;
 use App\Service\Media\MediaFileManager;
 use App\Service\Media\MediaUploader;
-use App\Service\MediaService;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
-use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\PostPersist;
 use Doctrine\ORM\Mapping\PostRemove;
 use Doctrine\ORM\Mapping\PostUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
-use function Symfony\Component\String\u;
 
 class MediaListener
 {
