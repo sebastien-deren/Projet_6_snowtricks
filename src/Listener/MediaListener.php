@@ -44,7 +44,7 @@ class MediaListener
         $this->fileManager->deleteFile($media->getTempName());
     }
 
-//do not work don't know why
+
     #[PostRemove]
     public function postDelete(Media $media, PostRemoveEventArgs $eventArgs): void
     {
