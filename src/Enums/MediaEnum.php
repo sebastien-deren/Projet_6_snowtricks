@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum MediaEnum :string
 {
-case IMAGE ='IMAGE';
+case IMAGE ='Image';
 case YOUTUBE ='Youtube';
 case DAILYMOTION = 'Dailymotion';
-case VIDEO ="video";
+case VIDEO ="Video";
 
 }

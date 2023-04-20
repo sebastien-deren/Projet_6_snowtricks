@@ -9,52 +9,53 @@
 {% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
-<div class="container-lg">
+    <div class="container-lg">
 
-    <div class="d-flex justify-content-between mt-4 ">
-        <div>
-            <a href="{{ path('app_figure_index') }}" class=" btn btn-primary"> << back to list</a>
-        </div>
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div class="d-flex justify-content-end align-item-end">
+        <div class="d-flex justify-content-between mt-4 ">
+            <div>
+                <a href="{{ path('app_figure_index') }}" class=" btn btn-primary"> << back to list</a>
+            </div>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="d-flex justify-content-end align-item-end">
 
                 <span class="mx-2"> <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}"
-                                      class="btn btn-warning ">Edit</a></span>
+                                       class="btn btn-warning ">Edit</a></span>
 
-                <span class="mx-2"> {{ include('figure/_delete_form.html.twig') }}</span>
+                    <span class="mx-2"> {{ include('figure/_delete_form.html.twig') }}</span>
 
-            </div>
-        {% endif %}
-    </div>
+                </div>
+            {% endif %}
+        </div>
 
 
-    <div style="background-image: url({{ asset('default/homepage.jpg') }});"
-         class="FigureHero my-3 rounded-3 d-flex flex-column justify-content-center">
+        <div style="background-image: url({{ asset('default/homepage.jpg') }});"
+             class="FigureHero my-3 rounded-3 d-flex flex-column justify-content-center">
             <H1 class="bg-light  bg-opacity-50 text-center opacity-100"> {{ figure.name }}</H1>
-    </div>
+        </div>
 
-    <div class="d-flex flex-column justify-content-around my-3" style="min-height: 20rem">
-        <h2>Description :</h2>
-        <p>{{ figure.description|nl2br }}</p>
+        <div class="d-flex flex-column justify-content-around my-3" style="min-height: 20rem">
+            <h2>Description :</h2>
+            <p>{{ figure.description|nl2br }}</p>
+            <div>
+                <span class="badge bg-primary">{{ figure.category.value|default(figure.category) }}</span>
+            </div>
+        </div>
         <div>
-            <span class="badge bg-primary">{{ figure.category.value|default(figure.category) }}</span>
+            {% for mediaEntity in figure.media %}
+                {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
+                {% include 'media/_media_'~ content ~ '.html.twig' %}
+            {% endfor %}
+        </div>
+        <div>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <h3>Discutez de cette figure!</h3>
+
+                {{ include('message/_form.html.twig') }}
+
+            {% endif %}
+            {% set messages = figure.messages %}
+            {{ include('message/show.html.twig') }}
+
         </div>
     </div>
-    {% for mediaEntity in figure.media %}
-        {% set content = mediaEntity.type.value is same as("IMAGE")?"Image":"Video" %}
-        <li>{% include 'media/_media_'~ content ~ '.html.twig'%}</li>
-    {% endfor %}
-    <div >
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <h3>Discutez de cette figure!</h3>
-
-            {{ include('message/_form.html.twig') }}
-
-        {% endif %}
-        {% set messages = figure.messages %}
-        {{ include('message/show.html.twig') }}
-
-    </div>
-
-    {% endblock %}
-
+{% endblock %}
