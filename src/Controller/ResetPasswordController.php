@@ -22,7 +22,7 @@ class ResetPasswordController extends AbstractController
     {
     }
 
-    #[Route('', name: 'app_reset_password')]
+    #[Route('', name: 'app_reset_password',methods:['GET','POST'])]
     public function index(Request $request): Response
     {
         //Create a Form type (probably only the mail address)
@@ -31,7 +31,7 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $username = $form->get('username')->getData();
             try {
-                $mail = $this->service->ResetPasswordRequest($username, 'app_reset_password_mail');
+                $mail = $this->service->resetPasswordRequest($username, 'app_reset_password_mail');
             } catch (TransportExceptionInterface $e) {
                 $error = $e->getMessage();
             }
@@ -48,7 +48,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    #[Route('/email/{id}/{token}', name: 'app_reset_password_mail')]
+    #[Route('/email/{id}/{token}', name: 'app_reset_password_mail',methods:['GET','POST'])]
     public function resetFromMail(Request $request, User $user, string $token): Response
     {
         if (!hash_equals($token,$user->getHash())) {

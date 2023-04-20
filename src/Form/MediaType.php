@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Media;
+use App\Enums\MediaEnum;
+use App\EventSubscriber\MediaFormSubscriber;
 use App\EventSubscriber\SetMediaFormSubscriber;
 use App\Service\MediaService;
 use Symfony\Component\Form\AbstractType;
@@ -24,14 +26,22 @@ class MediaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('file',FileType::class,[
-                'required'=>false,
-
+            ->add('mediaChoice', ChoiceType::class,
+                [
+                    'choices' => [
+                        MediaEnum::VIDEO->value => MediaEnum::VIDEO->value,
+                        MediaEnum::IMAGE->value => MediaEnum::IMAGE->value],
+                    'expanded' => true,
+                    'multiple' => false,
+                    'mapped' => false,
+                ])
+            ->add('file', FileType::class, [
+                'required' => false,
             ])
-            ->add('video',UrlType::class,[
-                'required'=>false,
+            ->add('video', UrlType::class, [
+                'required' => false,
             ])
-        ;
+            ->addEventSubscriber(new MediaFormSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

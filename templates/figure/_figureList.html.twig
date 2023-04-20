@@ -1,0 +1,48 @@
+<div id='figures' class="container-lg">
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="text-center mb-3">
+            <a href="{{ path('app_figure_new') }}" class="btn btn-primary py-3 px-5">Create a new Figure</a>
+        </div>
+    {% endif %}
+
+    <div class="d-flex flex-wrap justify-content-evenly">
+        {% for figure in figures %}
+            <div class="card my-3" style="width: 18rem;">
+                <img src="{{ asset('default/figure.jpg') }}" class="card-img-top" alt="...">
+                <div class="card-body d-flex flex-column justify-content-between">
+
+                    <div class="mb-4">
+                        <h5 class="card-title">{{ figure.name }}</h5>
+                        <p class="card-text">{{ figure.description|u.truncate('70','...') }}</p>
+                    </div>
+
+                    <div class="d-flex justify-content-around">
+                        <a href="{{ path('app_figure_show',{'slug': figure.slug}) }}"
+                           class="btn btn-primary">Show</a>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <a href="{{ path('app_figure_edit', {'slug': figure.slug}) }}"
+                               class="btn btn-warning">Edit</a>
+                            {{ include('figure/_delete_form.html.twig') }}
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="card-footer text-muted text-center">
+                    {{ figure.category.value|default(figure.category) }}
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
+    {% if not figures %}
+        <tr>
+            <td colspan="6">no records found</td>
+        </tr>
+    {% endif %}
+
+
+
+</div>

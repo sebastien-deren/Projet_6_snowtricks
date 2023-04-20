@@ -8,9 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FigureRepository::class)]
+#[UniqueEntity(['name','slug'],message: "We already have a figure name like that please edit it instead.")]
 class Figure
 {
     #[ORM\Id]
@@ -34,13 +36,13 @@ class Figure
     private ?string $category = null;
 
     #[ORM\Column(length: 255,unique: true)]
-
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, cascade: ['remove','persist'], orphanRemoval: true)]
+
     private Collection $media;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class, cascade: ['remove'])]
     private Collection $messages;
 
     public function __construct()
@@ -61,7 +63,7 @@ class Figure
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->name = ucfirst(trim($name));
 
         return $this;
     }
@@ -73,7 +75,7 @@ class Figure
 
     public function setDescription(string $description): self
     {
-        $this->description = $description;
+        $this->description = ucfirst(trim($description));
 
         return $this;
     }
