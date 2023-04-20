@@ -23,9 +23,6 @@
 docker/
 ###< Db/Data ###
 
-###> intellij/congig ###
-.idea/
-###<intellij/config ###
 
 ###> Test Images###
 /public/uploads/images/

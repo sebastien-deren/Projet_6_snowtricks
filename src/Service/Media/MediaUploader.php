@@ -72,7 +72,8 @@ class MediaUploader
         if ($link->containsAny('/embed/')) {
             return $link;
         }
-        return $link === $link->replace('/video/', '/embed/video/') ?: throw  new Exception('bad Dailymotion link');
+        return  $link->replace('/video/', '/embed/video/');
+
     }
 
 
