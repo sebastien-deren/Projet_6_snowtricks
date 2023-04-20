@@ -38,7 +38,7 @@ class Figure
     #[ORM\Column(length: 255,unique: true)]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Media::class, cascade: ['remove','persist'], orphanRemoval: true)]
 
     private Collection $media;
 

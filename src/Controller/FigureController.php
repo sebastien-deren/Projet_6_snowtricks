@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\Entity\Media;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
+use App\Service\MediaService;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Service\CreateMessage;

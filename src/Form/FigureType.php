@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\EventSubscriber\SetMediaFormSubscriber;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class FigureType extends AbstractType
 {
@@ -27,9 +30,19 @@ class FigureType extends AbstractType
             ])
             ->add('category',EnumType::class, ['class'=>FigureTypesEnum::class,
                 'choice_label' =>fn(FigureTypesEnum $choice) => $choice->value,
+                'expanded'=>true])
+            ->add('media',CollectionType::class,[
+                'entry_type'=>MediaType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'prototype'			=> true,
+                'allow_delete'		=> true,
+                'by_reference' 		=> false,
+                'required'			=> false,
+                'label'			=> false,
                 ])
             ->addEventSubscriber(new FigureFormSubscriber($this->slugger));
-
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
