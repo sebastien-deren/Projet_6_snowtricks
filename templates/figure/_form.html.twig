@@ -16,4 +16,4 @@
 <button type="button" class="add_video" data-collection-holder-class="medium">Add a video</button>
 <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-{% include 'figure/embedMediumJS.html.twig' %}
+<script src="{{ asset('asset/javascript/embedMedium.js') }}"></script>
