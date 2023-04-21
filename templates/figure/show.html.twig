@@ -2,7 +2,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href=" {{ asset('asset/FigureHero.css') }}">
+    <link rel="stylesheet" href=" {{ asset('asset/css/FigureHero.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/carroussel.css') }}">
 {% endblock %}
 
 
@@ -40,11 +41,51 @@
                 <span class="badge bg-primary">{{ figure.category.value|default(figure.category) }}</span>
             </div>
         </div>
-        <div>
-            <a  class="btn btn-primary" href="{{ path('app_media_new', {'slug': figure.slug}) }}">Add a new Figure</a>
-            {% for mediaEntity in figure.media %}
-                {% include ('media/_show.html.twig') %}
-            {% endfor %}
+        <div class="my-4 justify-content-center d-flex">
+            <a class="btn btn-primary" href="{{ path('app_media_new', {'slug': figure.slug}) }}">Add a new Figure</a>
+        </div>
+
+
+        <div class="container-fluid">
+            {% if figure.media.count>3 %}
+                <div class="d-flex row mx-auto my-auto flex-row" style="width:100%">
+                    <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                        <div class="carousel-inner col" role="listbox">
+                            <div class="carousel-item active">
+                                {% set mediaEntity =  figure.media.first %}
+                                <div class="col-md-3">
+                                    {% include ('media/_show.html.twig') %}
+                                </div>
+                            </div>
+
+                            {% for mediaEntity in figure.media %}
+                                <div class="carousel-item ">
+                                    <div class="col-md-3">
+                                        {% include ('media/_show.html.twig') %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev bg-secondary w-aut" href="#recipeCarousel" role="button"
+                           data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next text-dark bg-transparent w-aut" href="#recipeCarousel" role="button"
+                           data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                {% for mediaEntity in figure.media %}
+
+                    <div class="carousel-item active">
+                        <div class="col-md-3">
+                            {% include ('media/_show.html.twig') %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
         <div>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -58,4 +99,10 @@
 
         </div>
     </div>
+
 {% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('asset/javascript/carroussel.js') }}"></script>
+        {{ parent() }}
+
+    {% endblock %}

@@ -16,7 +16,7 @@
         <div>{{ media.file is defined ? form_row(media.file) : null }}{{ media.video is defined ? form_row(media.video) : null }}</div>
         </li>
     {% endfor %}
-    <button type="button" class="add_media btn btn-primary" data-collection-holder-class="medium">Add a media to this figure</button>
+    <button type="button" class="add_media_btn btn btn-primary" data-collection-holder-class="medium">Add a media to this figure</button>
 </ul>
 
 <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
