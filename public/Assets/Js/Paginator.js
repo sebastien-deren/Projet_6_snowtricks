@@ -42,6 +42,3 @@ export default function (pages,template,section,paginationSection){
     displayPagination(pages.length,paginationSection);
     changePagesBtn(pages,template,section);
 }
-
-
-

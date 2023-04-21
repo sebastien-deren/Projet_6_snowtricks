@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\FigureFullDTO;
 use App\Entity\Figure;
 use App\Entity\Media;
 use App\Form\FigureType;
@@ -11,6 +12,7 @@ use App\Service\MediaService;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Service\CreateMessage;
+use App\Service\MessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +52,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'app_figure_show', methods: ['GET','POST'])]
-    public function show(Request $request, Figure $figure, CreateMessage $createMessage): Response
+    public function show(Request $request, Figure $figure, CreateMessage $createMessage, MessageService $messageService): Response
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class,$message);
@@ -59,8 +61,10 @@ class FigureController extends AbstractController
             $this->isGranted('IS_AUTHENTICATED');
             $createMessage($message,$this->getUser(),$figure);
         }
+        $figureDTO = new FigureFullDTO($figure);
+        $figureDTO->messages = $messageService->displayFigure($figureDTO->messages,5);
         return $this->render('figure/show.html.twig', [
-            'figure' => $figure,
+            'figure' => $figureDTO,
             'formMessage' => $form,
         ]);
     }
@@ -84,7 +88,7 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_figure_delete', methods: ['POST'])]
+    #[Route('/delete/{slug}', name: 'app_figure_delete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {

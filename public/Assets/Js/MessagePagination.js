@@ -2,10 +2,12 @@ import  paginator from "./Paginator.js"
 
 
 function getPost() {
-    const messageTemplate = ({user,date,content},section) =>{
+    const messageTemplate = ({user,date,content,photo},section) =>{
         const html = `        
         <tr>
-            <th>${user} ${date}</th>
+            <td><img src="${photo}"alt="${user}"/></td>
+            <th>${user} </th>
+            <td>${date}</td>
             <td>${content}</td>
         </tr>`;
         section.insertAdjacentHTML("beforeend", html);
