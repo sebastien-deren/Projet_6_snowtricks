@@ -13,6 +13,7 @@
     display: flex;
 }
 
+
 /* medium and up screens */
 @media (min-width: 768px) {
 
@@ -25,6 +26,9 @@
     .carousel-inner .carousel-item-prev {
         transform: translateX(-25%);
     }
+}
+.carousel-item.active{
+    justify-content: center;
 }
 
 .carousel-inner .carousel-item-end,

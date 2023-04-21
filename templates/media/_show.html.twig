@@ -1,5 +1,5 @@
 {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
-<div class="card d-flex flex-column justify-content-between" style="width: auto; height: 250px;">
+<div class="card d-flex flex-column justify-content-between" style="width:18rem; height: 250px;">
     <div class="card-img">
     {% include 'media/_media_'~ content ~ '.html.twig' %}
     </div>
