@@ -14,8 +14,9 @@ DOCKER_COMPOSE_STOP = $(DOCKER_COMPOSE) down
 #--DOCTRINE--#
 DOCTRINE= $(SYMFONY_CONSOLE) doctrine
 DOCTRINE_MAKE_MIGRATION = $(SYMFONY_CONSOLE) make:migration
-DOCTRINE_MIGRATE= $(DOCTRINE):migration:migrate
+DOCTRINE_MIGRATE= $(DOCTRINE):migration:migrate -n
 DOCTRINE_MAKE_DB=$(DOCTRINE):database:create --if-not-exists
+DOCTRINE_FIXTURES = $(DOCTRINE):fixtures:load -n
 
 #--COMPOSER--#
 COMPOSER = composer
@@ -24,6 +25,7 @@ COMPOSER_INSTALL = $(COMPOSER) install
 
 docker-up:
 	$(DOCKER_COMPOSE_START)
+.PHONY:docker-up
 
 docker-down:
 	$(DOCKER_COMPOSE_STOP)
@@ -31,7 +33,7 @@ docker-down:
 
 sf-start:
 	$(SYMFONY_SERVER_START)
-.PHONY: launch
+.PHONY: sf-start
 
 sf-stop:
 	$(SYMFONY_SERVER_STOP)
@@ -54,11 +56,16 @@ dmakedb:
 .PHONY:dmakedb
 
 dmm:
-	$(DOCTRINE_MIGRATION_MIGRATE)
+	$(DOCTRINE_MIGRATE)
 .PHONY: dmm
 
+doctrine-fixture:
+	$(DOCTRINE_FIXTURES)
+.PHONY: doctrine-fixture
+
 sleep:
-	timeout 30
+	echo 'waiting for docker database !'
+	sleep 5
 .PHONY: sleep
 
 
@@ -69,5 +76,5 @@ start: sf-start docker-up sf-open
 stop: sf-stop docker-down
 .PHONY: stop
 
-install: docker-up composer-install sf-start sleep dmakedb dmm  sf-open
+install: docker-up composer-install sf-start sleep dmakedb dmm doctrine-fixture  sf-open
 .PHONY: install
