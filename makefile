@@ -57,6 +57,10 @@ dmm:
 	$(DOCTRINE_MIGRATION_MIGRATE)
 .PHONY: dmm
 
+sleep:
+	timeout 30
+.PHONY: sleep
+
 
 
 start: sf-start docker-up sf-open
@@ -65,5 +69,5 @@ start: sf-start docker-up sf-open
 stop: sf-stop docker-down
 .PHONY: stop
 
-install: docker-up composer-install dmakedb dmm sf-start sf-open
+install: docker-up composer-install sf-start sleep dmakedb dmm  sf-open
 .PHONY: install
