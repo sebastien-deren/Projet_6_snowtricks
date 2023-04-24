@@ -32,6 +32,7 @@ class FigureType extends AbstractType
                 'choice_label' =>fn(FigureTypesEnum $choice) => $choice->value,
                 'expanded'=>true])
             ->add('media',CollectionType::class,[
+                'row_attr'=>['class'=>'mediaForm'],
                 'entry_type'=>MediaType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
