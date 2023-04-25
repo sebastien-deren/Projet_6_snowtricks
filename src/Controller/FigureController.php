@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\DTO\FigureFullDTO;
 use App\Entity\Figure;
 use App\Entity\Media;
+use App\Enums\FigureTypesEnum;
+use App\Enums\MediaEnum;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
@@ -24,10 +26,11 @@ class FigureController extends AbstractController
 {
     #[Route('', name: 'app_figure_index', methods: ['GET'])]
 
-    public function index(FigureRepository $figureRepository): Response
+    public function index(FigureService $service): Response
     {
+
         return $this->render('figure/index.html.twig', [
-            'figures' => $figureRepository->findAll(),
+            'figures' => $service->findAllFront(),
         ]);
     }
 
@@ -52,7 +55,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'app_figure_show', methods: ['GET','POST'])]
-    public function show(Request $request, Figure $figure, CreateMessage $createMessage, MessageService $messageService): Response
+    public function show(Request $request, Figure $figure, CreateMessage $createMessage ,FigureService $service,MessageService $messageService): Response
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class,$message);
@@ -64,6 +67,7 @@ class FigureController extends AbstractController
         $figureDTO = new FigureFullDTO($figure);
         $figureDTO->messages = $messageService->displayFigure($figureDTO->messages,5);
         return $this->render('figure/show.html.twig', [
+            'heroPhoto' => $service->findFrontImage($figure),
             'figure' => $figureDTO,
             'formMessage' => $form,
         ]);

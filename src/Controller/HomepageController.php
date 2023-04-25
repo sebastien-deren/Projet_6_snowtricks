@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Form\MessageType;
+use App\Service\FigureService;
 use App\Service\MessageService;
 use App\Repository\FigureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,9 +17,9 @@ class HomepageController extends AbstractController
 {
     #[Route('/homepage', name: 'app_homepage', methods: ['GET', 'POST'])]
     #[Route('/', name: 'app_homepage', methods: ['GET', 'POST'])]
-    public function index(Request          $request,
-                          MessageService   $messageService,
-                          FigureRepository $repository
+    public function index(Request        $request,
+                          MessageService $messageService,
+                          FigureService  $figureService
     ): Response
     {
 
@@ -27,14 +28,15 @@ class HomepageController extends AbstractController
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
+        $figures = $figureService->findAllFront();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->isGranted('IS_AUTHENTICATED');
-            $messageService->create($message,$this->getUser());
+            $messageService->create($message, $this->getUser());
         }
         $messages = $messageService->displayFront(5);
         return $this->render('homepage/index.html.twig', [
-            'figures' => $repository->findAll(),
+            'figures' => $figures,
             'controller_name' => 'HomepageController',
             'messages' => $messages,
             'formMessage' => $form,
