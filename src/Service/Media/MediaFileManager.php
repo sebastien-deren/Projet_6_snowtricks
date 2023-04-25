@@ -22,7 +22,9 @@ class MediaFileManager
             return;
         }
         try {
-                unlink($filePath) ?? throw new \Exception($filePath);
+            if(!unlink($filePath)){
+                throw new \Exception($filePath);
+            }
         } catch (\Exception $exception) {
             $this->logger->error('the media at: {filePath} couldn\'t be removed', [
                 'filePath' => $filePath,
