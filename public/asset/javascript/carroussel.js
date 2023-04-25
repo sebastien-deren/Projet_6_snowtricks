@@ -1,5 +1,7 @@
 window.addEventListener("DOMContentLoaded", (event) => {
+
     const items = document.querySelectorAll('.carousel-item')
+    console.log(items)
     items.forEach((el) => {
         const minPerSlide = 3
         let next = el.nextElementSibling

@@ -1,9 +1,9 @@
 {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
-<div class="card d-flex flex-column justify-content-between" style="width:18rem; height: 250px;">
+<div class="card d-flex flex-column justify-content-between" style=" height: 250px;">
     <div class="card-img">
     {% include 'media/_media_'~ content ~ '.html.twig' %}
     </div>
-    <div class="card-text d-flex flex-row justify-content-evenly" style="width: 560px">
+    <div class="card-text d-flex flex-row justify-content-evenly" style="">
         {% if is_granted('IS_AUTHENTICATED') %}
             <a class="btn btn-warning "
                href="{{ path('app_media_edit', {'id': mediaEntity.id, 'slug':figure.slug }) }}">edit</a>
