@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Media;
+use App\Enums\MediaEnum;
+use App\EventSubscriber\MediaFormSubscriber;
 use App\EventSubscriber\SetMediaFormSubscriber;
 use App\Service\MediaService;
 use Symfony\Component\Form\AbstractType;
@@ -19,18 +21,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MediaType extends AbstractType
 {
-    public function __construct(private MediaService $service)
-    {
-    }
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('file',FileType::class,[
-                'required'=>false,
-
+            ->add('mediaChoice', ChoiceType::class,
+                [
+                    'attr'=>['class'=>'choice'],
+                    'choices' => [
+                        MediaEnum::VIDEO->value => MediaEnum::VIDEO->value,
+                        MediaEnum::IMAGE->value => MediaEnum::IMAGE->value],
+                    'expanded' => true,
+                    'multiple' => false,
+                    'mapped' => false,
+                    'label'=>false,
+                ])
+            ->add('file', FileType::class, [
+                'row_attr'=>['class'=>'fileField ','style'=>'display:none'],
+                'required' => false,
+                'label'=>false,
             ])
-        ;
+            ->add('video', UrlType::class, [
+                'row_attr'=>['class'=>'videoField ','style'=>'display:none'],
+                'required' => false,
+                'label'=>false,
+            ])
+            ->addEventSubscriber(new MediaFormSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -39,17 +56,5 @@ class MediaType extends AbstractType
             'data_class' => Media::class,
         ]);
     }
-    public function onSubmitData(FormEvent $event):void{
 
-        $media = $event->getData();
-        $form = $event->getForm();
-        if(!$media){
-            return;
-        }
-        if(!isset($media['image'])){
-            return;
-        }
-        $newFile = $this->service->uploadImage($media['image']);
-        $form->setData([$newFile]);
-    }
 }

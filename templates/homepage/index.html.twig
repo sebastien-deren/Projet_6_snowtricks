@@ -1,28 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Snowtricks{% endblock %}
-{% block stylesheets  %}
+{% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href=" {{ asset('asset/homepageHero.css') }}">
+    <link rel="stylesheet" href=" {{ asset('asset/css/homepageHero.css') }}">
+    <link rel="stylesheet" href=" {{ asset('asset/css/carroussel.css') }}">
 
 {% endblock %}
 {% block body %}
 
     <div class="homepageHero container-fluid">
         <div class="bg-light bg-opacity-50 text-center px-4 py-1 rounded-3 shadow-lg">
-        <h1 >Yo man ? Are YOU ready to take on the trickiest ride of the world?</h1><br/>
-        <h2>This site is for you ! Discover the most popular and difficult trick of the book!</h2>
+            <h1>Yo man ? Are YOU ready to take on the trickiest ride of the world?</h1><br/>
+            <h2>This site is for you ! Discover the most popular and difficult trick of the book!</h2>
         </div>
     </div>
 
-    {% include "figure/_figureList.html.twig" %}
-    <div class="example-wrapper">
+    {% if figures is not empty %}
+    {% embed "figure/_figureList.html.twig" %}
+        {% block list %}
+            <div class="d-flex row mx-auto my-auto flex-row " style="">
+                <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel"
+                     data-bs-interval="false">
+                    <div class="carousel-inner col " role="listbox" style="height:30rem">
+                        {% set figureFirst = figures %}
+                        {% for figure in figures %}
+                            <div class="carousel-item {{ figure is same as (figureFirst[0]) ? 'active' :'' }}">
+                                {% include('figure/_card.html.twig') %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev color-dark w-aut" href="#recipeCarousel" role="button"
+                       data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next  bg-transparent w-aut" href="#recipeCarousel"
+                       role="button"
+                       data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+    {% endif %}
+    <div class="container-lg">
         {% if messages %}
-            <h2>Espace de discussions</h2>
+            <h2>Discussion Space</h2>
             {% if is_granted('IS_AUTHENTICATED') %}
                 {% include('message/_form.html.twig') %}
             {% endif %}
             {% include('message/show.html.twig') %}
         {% endif %}
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('asset/javascript/MessagePagination.js') }}"></script>
+    <script type="module" src="{{ asset('asset/javascript/Paginator.js') }}"></script>
+    <script src="{{ asset('asset/javascript/carroussel.js') }}"></script>
 {% endblock %}

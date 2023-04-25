@@ -17,7 +17,8 @@ const addFormToCollection = (e) => {
     collectionHolder.dataset.index++;
 };
 document
-    .querySelectorAll('.add_image')
+
+    .querySelectorAll('.add_media_btn')
     .forEach(btn => {
         btn.addEventListener("click", addFormToCollection)
     });
