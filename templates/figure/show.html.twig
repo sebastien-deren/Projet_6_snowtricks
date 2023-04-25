@@ -47,7 +47,7 @@
 
 
         <div class="container-fluid">
-            {% if figure.media.count>3 %}
+            {% if figure.media is not empty %}
                 <div class="d-flex row mx-auto my-auto flex-row" style="width:100%">
                     <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
                         <div class="carousel-inner col container-fluid" role="listbox">
@@ -77,20 +77,11 @@
                     </div>
 
                 </div>
-            {% else %}
-                {% for mediaEntity in figure.media %}
-
-                    <div class="carousel-item active">
-                        <div class="col-md-3">
-                            {% include ('media/_show.html.twig') %}
-                        </div>
-                    </div>
-                {% endfor %}
             {% endif %}
         </div>
         <div>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <h3>Discutez de cette figure!</h3>
+                <h3>Leave a Message about this figure !</h3>
 
                 {{ include('message/_form.html.twig') }}
 

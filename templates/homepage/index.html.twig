@@ -16,10 +16,12 @@
         </div>
     </div>
 
+    {% if figures is not empty %}
     {% embed "figure/_figureList.html.twig" %}
         {% block list %}
             <div class="d-flex row mx-auto my-auto flex-row " style="">
-                <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
+                <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel"
+                     data-bs-interval="false">
                     <div class="carousel-inner col " role="listbox" style="height:30rem">
                         {% set figureFirst = figures %}
                         {% for figure in figures %}
@@ -41,9 +43,10 @@
             </div>
         {% endblock %}
     {% endembed %}
+    {% endif %}
     <div class="container-lg">
         {% if messages %}
-            <h2>Espace de discussions</h2>
+            <h2>Discussion Space</h2>
             {% if is_granted('IS_AUTHENTICATED') %}
                 {% include('message/_form.html.twig') %}
             {% endif %}
@@ -52,9 +55,8 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-
+    {{ parent() }}
     <script type="module" src="{{ asset('Assets/Js/MessagePagination.js') }}"></script>
     <script type="module" src="{{ asset('Assets/Js/Paginator.js') }}"></script>
-
-    {{ parent() }}
+    <script src="{{ asset('asset/javascript/carroussel.js') }}"></script>
 {% endblock %}
