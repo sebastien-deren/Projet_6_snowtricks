@@ -3,6 +3,7 @@
 namespace App\Service\Media;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaFileManager
@@ -12,7 +13,7 @@ class MediaFileManager
         private LoggerInterface $logger,
     ){}
 
-    public function saveFile(?UploadedFile $file,string $newName):void{
+    public function saveFile(?File $file,string $newName):void{
         $file?->move($this->imageFolder, $newName);
     }
 

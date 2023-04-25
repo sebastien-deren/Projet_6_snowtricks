@@ -70,9 +70,12 @@ class Media
     }
     public function setFile(File $file): self
     {
-        if($this->name === $file->getClientOriginalName()){
-            return $this;
+        if($file instanceof UploadedFile){
+            if($this->name === $file->getClientOriginalName()){
+                return $this;
+            }
         }
+
 
         $this->file = $file;
         $this->setType(MediaEnum::IMAGE);
