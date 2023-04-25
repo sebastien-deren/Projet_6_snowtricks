@@ -24,14 +24,10 @@ class MediaService
         $originalImageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeName = $this->slugger->slug($originalImageName);
         $newFilename = $safeName . uniqid() . '.' . $file->guessExtension();
-        try {
-            $file->move(
-                $this->imageFolder,
-                $newFilename
-            );
-        } catch (\Exception $e) {
-            dd($e);
-        }
+        $file->move(
+            $this->imageFolder,
+            $newFilename
+        );
 
         return $newFilename;
     }
@@ -54,7 +50,7 @@ class MediaService
         if ($link->containsAny('/embed/')) {
             return $link;
         }
-        return $link === $link->replace('/video/', '/embed/video/') ?: throw  new Exception('bad Dailymotion link');
+        return  $link->replace('/video/', '/embed/video/') ;
     }
 
 
