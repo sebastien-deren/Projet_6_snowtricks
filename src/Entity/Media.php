@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
-use App\Enums\FigureTypesEnum;
 use App\Enums\MediaEnum;
-use App\Listener\MediaListener;
+use App\EventSubscriber\MediaListener;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
