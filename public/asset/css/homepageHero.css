@@ -1,6 +1,6 @@
 .homepageHero{
     height: 100vh;
-    background: url('../default/homepage.jpg') no-repeat scroll;
+    background: url('../../default/homepage.jpg') no-repeat scroll;
     background-size: cover;
     position: relative;
     top: -3rem;

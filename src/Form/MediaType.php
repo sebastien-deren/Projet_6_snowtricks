@@ -28,18 +28,24 @@ class MediaType extends AbstractType
         $builder
             ->add('mediaChoice', ChoiceType::class,
                 [
+                    'attr'=>['class'=>'choice'],
                     'choices' => [
                         MediaEnum::VIDEO->value => MediaEnum::VIDEO->value,
                         MediaEnum::IMAGE->value => MediaEnum::IMAGE->value],
                     'expanded' => true,
                     'multiple' => false,
                     'mapped' => false,
+                    'label'=>false,
                 ])
             ->add('file', FileType::class, [
+                'row_attr'=>['class'=>'fileField ','style'=>'display:none'],
                 'required' => false,
+                'label'=>false,
             ])
             ->add('video', UrlType::class, [
+                'row_attr'=>['class'=>'videoField ','style'=>'display:none'],
                 'required' => false,
+                'label'=>false,
             ])
             ->addEventSubscriber(new MediaFormSubscriber());
     }

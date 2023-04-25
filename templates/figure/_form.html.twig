@@ -3,22 +3,29 @@
     {{ form_row(form.description) }}
     {{ form_row(form.category) }}
 
-<ul class="medium"
-    data-index="{{ form.media|length > 0 ? form.media|last.vars.name + 1 : 0 }}"
-    data-prototype="{{ form_widget(form.media.vars.prototype)|e('html_attr') }}">
+<ul
+        id="medium_form_js"
+        style="list-style: none"
+        class="medium "
+        data-index="{{ form.media|length > 0 ? form.media|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.media.vars.prototype)|e('html_attr') }}">
     {% for media in form.media %}
         {% set mediaEntity = media.vars.value %}
-            {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
-        <li class="media my-3">
-            <div>{% include 'media/_media_'~ content ~ '.html.twig'%}</div>
+        {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
+        <li class="media my-5">
+            <div>{% include 'media/_media_'~ content ~ '.html.twig' %}</div>
 
-        <div>{{ form_row(media.mediaChoice) }}</div>
-        <div>{{ media.file is defined ? form_row(media.file) : null }}{{ media.video is defined ? form_row(media.video) : null }}</div>
+            <div>{{ form_row(media.mediaChoice) }}</div>
+            <div>{{ media.file is defined ? form_row(media.file) : null }}{{ media.video is defined ? form_row(media.video) : null }}</div>
         </li>
     {% endfor %}
-    <button type="button" class="add_media btn btn-primary" data-collection-holder-class="medium">Add a media to this figure</button>
+    <button type="button" class="add_media_btn btn btn-primary" data-collection-holder-class="medium">Add a media to
+        this figure
+    </button>
 </ul>
 
 <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 <script src="{{ asset('asset/javascript/embedMedium.js') }}"></script>
+<script type="module" src="{{ asset('asset/javascript/mediaChoice.js') }}"></script>
+<script type="module" src="{{ asset('asset/javascript/mediaChoiceFigureForm.js') }}"></script>
