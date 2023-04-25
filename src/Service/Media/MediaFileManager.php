@@ -8,16 +8,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MediaFileManager
 {
     public function __construct(
-        private string $mediumFolder,
+        private string          $imageFolder,
         private LoggerInterface $logger,
     ){}
 
     public function saveFile(?UploadedFile $file,string $newName):void{
-        $file?->move($this->mediumFolder, $newName);
+        $file?->move($this->imageFolder, $newName);
     }
 
     public function deleteFile(?string $fileName):void{
-        $filePath = $this->mediumFolder . '/' . $fileName??'';
+        $filePath = $this->imageFolder . '/' . $fileName??'';
         if (!file_exists($filePath)) {
             return;
         }

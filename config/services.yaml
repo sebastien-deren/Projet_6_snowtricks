@@ -11,8 +11,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $mediumFolder:  '%kernel.project_dir%/public/uploads/images'
-
             $imageFolder:  '%kernel.project_dir%/public/uploads/images'
             array $botMail : {
                 'address': 'mailer@snowtricks.com',
