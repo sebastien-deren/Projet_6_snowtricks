@@ -13,3 +13,7 @@
 
     {{ include('media/_delete_form.html.twig') }}
 {% endblock %}
+{% block javascript %}
+{{ parent() }}
+<script src=" {{ asset('asset/javascript/mediaChoice.js') }} "></script>
+{% endblock %}

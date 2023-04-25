@@ -11,11 +11,12 @@ use function Symfony\Component\String\u;
 
 class MediaUploader
 {
-    public function __construct( public SluggerInterface $slugger)
+    public function __construct(public SluggerInterface $slugger)
     {
     }
 
-    public function upload(Media $media):void{
+    public function upload(Media $media): void
+    {
         if (MediaEnum::VIDEO === $media->getType()) {
             $type = $this->videoTypeGuessr(u($media->getVideo()));
             $media->setType($type);
@@ -72,7 +73,7 @@ class MediaUploader
         if ($link->containsAny('/embed/')) {
             return $link;
         }
-        return  $link->replace('/video/', '/embed/video/');
+        return $link->replace('/video/', '/embed/video/');
 
     }
 
