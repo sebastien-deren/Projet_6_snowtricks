@@ -139,8 +139,7 @@ class AppFixtures extends Fixture
 
         foreach ($figures as $figure) {
             for ($i = 0; $i < rand(2,6); $i++) {
-                //$media = rand(0,2) ? $this->mediaImageFixture() : $this->mediaVideoFixture();
-                $media = $this->mediaImageFixture();
+                $media = rand(0,2) ? $this->mediaImageFixture() : $this->mediaVideoFixture();
                 $manager->persist($media);
                 $figure->addMedium($media);
 
@@ -159,13 +158,16 @@ class AppFixtures extends Fixture
 
         return (new Media())->setFile( new File($targetPath));
     }
-    /*private function mediaVideoFixture():Media{
+    private function mediaVideoFixture():Media{
         $randVideo=[
-            ""
+            "https://www.youtube.com/watch?v=mBB7CznvSPQ",
+            "https://www.youtube.com/watch?v=SFYYzy0UF-8",
+            "https://www.youtube.com/watch?v=8KotvBY28Mo",
+            "https://www.youtube.com/watch?v=PxhfDec8Ays"
         ];
         $video =$randVideo[rand(0,count($randVideo)-1)];
-        return (new Media()->setVideo($randVideo));
-    }*/
+        return (new Media())->setVideo($video);
+    }
 
 }
 
