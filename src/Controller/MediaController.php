@@ -32,6 +32,7 @@ class MediaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $figure->addMedium($medium);
             $repository->save($figure, true);
+            $this->addFlash('success','Vous avez ajouter un nouveau media  !');
             return $this->redirectToRoute('app_figure_show', ['slug' => $figure->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
@@ -54,7 +55,7 @@ class MediaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaRepository->save($medium, true);
-
+            $this->addFlash('success','Vous avez modifier un media  !');
             return $this->redirectToRoute('app_figure_show', ["slug" => $medium->getFigure()->getSlug()], Response::HTTP_SEE_OTHER);
         }
         return $this->render('media/edit.html.twig', [
@@ -71,6 +72,7 @@ class MediaController extends AbstractController
     ): Response
     {
         if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) {
+            $this->addFlash('warning','Vous avez supprimer un media  !');
             $mediaRepository->remove($medium, true);
         }
 
