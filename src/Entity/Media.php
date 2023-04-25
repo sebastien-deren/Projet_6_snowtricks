@@ -7,6 +7,7 @@ use App\Enums\MediaEnum;
 use App\EventSubscriber\MediaListener;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,7 +42,7 @@ class Media
     private ?string $video =null;
 
     #[Assert\Image]
-    private ?UploadedFile $file =null;
+    private ?File $file =null;
     private ?string $tempName =null;
 
     /**
@@ -67,22 +68,31 @@ class Media
         $this->setType(MediaEnum::VIDEO);
         return $this;
     }
-    public function setFile(UploadedFile $file): self
+    public function setFile(File $file): self
     {
-        if($this->name === $file->getClientOriginalName()){
-            return $this;
+        if($file instanceof UploadedFile){
+            if($this->name === $file->getClientOriginalName()){
+                return $this;
+            }
         }
+
 
         $this->file = $file;
         $this->setType(MediaEnum::IMAGE);
-        $this->name = $file->getClientOriginalName();
+        if( $file instanceof UploadedFile){
+            $this->name = $file->getClientOriginalName() ;
+        }
+        else{
+            $this->name = $file->getFilename();
+        }
         if (null !== $this->url) {
             $this->tempName = $this->url;
         }
         return $this;
     }
 
-    public function getFile(): ?UploadedFile
+
+    public function getFile(): ?File
     {
         return $this->file;
     }

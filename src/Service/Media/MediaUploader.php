@@ -4,6 +4,7 @@ namespace App\Service\Media;
 
 use App\Entity\Media;
 use App\Enums\MediaEnum;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\UnicodeString;
@@ -40,16 +41,22 @@ class MediaUploader
     private function getUploader(MediaEnum $enum): \Closure
     {
         return match ($enum) {
-            MediaEnum::IMAGE => fn(UploadedFile $file): string => $this->uploadImage($file),
+            MediaEnum::IMAGE => fn(File $file): string => $this->uploadImage($file),
             MediaEnum::DAILYMOTION => fn(UnicodeString $video): string => $this->uploadDailyMotion($video),
             MediaEnum::YOUTUBE => fn(UnicodeString $video): string => $this->uploadYoutube($video),
             MediaEnum::VIDEO => fn(UnicodeString $video): string => $video,
         };
 
     }
-    private function uploadImage(UploadedFile $file): string
+    private function uploadImage(File $file): string
     {
-        $originalImageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        if($file instanceof UploadedFile){
+            $originalImageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        }
+        else{
+            $originalImageName = $file->getFileName();
+        }
+
         $safeName = $this->slugger->slug($originalImageName);
         return $safeName . uniqid() . '.' . $file->guessExtension();
 
