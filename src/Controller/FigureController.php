@@ -45,6 +45,7 @@ class FigureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $service->saveFigure($figure);
+            $this->addFlash('success','Vous avez créer un nouvelle figure !');
             return $this->redirectToRoute('app_figure_show', ["slug"=>$figure->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,7 +82,9 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $service->saveFigure($figure, true);
+            $this->addFlash('success','Vous avez modifier la figure '.$figure->getName().' !');
 
             return $this->redirectToRoute('app_figure_show', ["slug"=>$figure->getSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -97,6 +100,7 @@ class FigureController extends AbstractController
     public function delete(Request $request, Figure $figure, FigureService $service): Response
     {
         if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) {
+            $this->addFlash('warning','Vous avez supprimer la figure '.$figure->getName().' !');
             $service->removeFigure($figure, true);
         }
 
