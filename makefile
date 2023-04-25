@@ -55,6 +55,10 @@ dmakedb:
 	$(DOCTRINE_MAKE_DB)
 .PHONY:dmakedb
 
+dmakemigration:
+	$(DOCTRINE_MAKE_MIGRATION)
+.PHONY: dmakemigration
+
 dmm:
 	$(DOCTRINE_MIGRATE)
 .PHONY: dmm

@@ -14,6 +14,7 @@ services:
             $mediumFolder:  '%kernel.project_dir%/public/uploads/images'
 
             $imageFolder:  '%kernel.project_dir%/public/uploads/images'
+            $fixtureImageFolder: '%kernel.project_dir%/public/default'
             array $botMail : {
                 'address': 'mailer@snowtricks.com',
                 'name': 'Snowtricks mailer'
