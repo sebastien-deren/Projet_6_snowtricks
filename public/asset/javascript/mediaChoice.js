@@ -1,13 +1,10 @@
 
-const showElement = (node ,{video, image})=> {
-    if('Image' === node.value) {
-        image.style.display="block";
-        video.style.display="none";
-    }
-    if('Video'=== node.value) {
-        image.style.display="none";
-        video.style.display="block";
-    }
+const showElement = (node, {video, image}) => {
+
+    const isImage = 'Image' === node.value;
+    image.style.display = isImage ? "block" : "none";
+    video.style.display = isImage ? "none" : "block";
+
 };
 const listenClick = (element ,fields) => element.addEventListener('click',() => showElement(element,fields))
 

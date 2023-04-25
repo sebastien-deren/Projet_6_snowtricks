@@ -3,8 +3,11 @@
     <div class="card-img">
     {% include 'media/_media_'~ content ~ '.html.twig' %}
     </div>
-    <div class="card-text d-flex flex-row justify-content-evenly" >
-        <a class="btn btn-warning " href="{{ path('app_media_edit', {'id': mediaEntity.id, 'slug':figure.slug }) }}">edit</a>
-        {{ include('media/_delete_form.html.twig') }}
+    <div class="card-text d-flex flex-row justify-content-evenly" style="width: 560px">
+        {% if is_granted('IS_AUTHENTICATED') %}
+            <a class="btn btn-warning "
+               href="{{ path('app_media_edit', {'id': mediaEntity.id, 'slug':figure.slug }) }}">edit</a>
+            {{ include('media/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 </div>
