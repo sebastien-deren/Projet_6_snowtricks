@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Enums\MediaEnum;
 use App\EventSubscriber\MediaListener;
 use App\Repository\MediaRepository;
@@ -25,6 +26,7 @@ class Media
     #[ORM\Column(length: 255)]
     //#[Assert\NotBlank]
     private ?string $type = '';
+
 
     #[ORM\Column(length: 255, nullable: true)]
     //#[Assert\Url]
@@ -70,6 +72,7 @@ class Media
         if($this->name === $file->getClientOriginalName()){
             return $this;
         }
+
         $this->file = $file;
         $this->setType(MediaEnum::IMAGE);
         $this->name = $file->getClientOriginalName();
@@ -84,7 +87,9 @@ class Media
         return $this->file;
     }
 
+
     public function setTempName(?string $name): self
+
     {
         $this->tempName = $name;
         return $this;
@@ -118,7 +123,9 @@ class Media
     public
     function getType(): MediaEnum
     {
+
         return MediaEnum::tryFrom($this->type);
+
     }
 
     public

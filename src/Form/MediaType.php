@@ -56,4 +56,5 @@ class MediaType extends AbstractType
             'data_class' => Media::class,
         ]);
     }
+
 }

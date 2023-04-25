@@ -22,7 +22,9 @@ If you have make installed:
 
 
 
+
 -then create the database and the migrations.
+
 `symfony console doctrine:database:create --if-not-exists`  
 `symfony console doctrine:migration:migrate`  
 
