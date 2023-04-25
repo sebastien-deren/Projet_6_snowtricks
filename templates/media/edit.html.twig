@@ -3,6 +3,7 @@
 {% block title %}Edit Media{% endblock %}
 
 {% block body %}
+<div class="container-lg">
 
     <h1>Edit Media</h1>
     {% set content = mediaEntity.type.name is same as("IMAGE")?"Image":"Video" %}
@@ -12,8 +13,9 @@
     <a href="{{ path('app_figure_show', {'slug': mediaEntity.figure.slug}) }}">back to list</a>
 
     {{ include('media/_delete_form.html.twig') }}
-{% endblock %}
-{% block javascript %}
-{{ parent() }}
-<script src=" {{ asset('asset/javascript/mediaChoice.js') }} "></script>
+    {% endblock %}
+    {% block javascript %}
+    {{ parent() }}
+    <script src=" {{ asset('asset/javascript/mediaChoice.js') }} "></script>
+</div>
 {% endblock %}

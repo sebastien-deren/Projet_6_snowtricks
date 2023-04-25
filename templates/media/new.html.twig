@@ -3,9 +3,11 @@
 {% block title %}New Media{% endblock %}
 
 {% block body %}
+    <div class="container-lg">
     <h1>Create new Media</h1>
 
     {{ include('media/_form.html.twig') }}
 
     <a href="{{ path('app_figure_show',{'slug': figure.slug}) }}">back to Figure</a>
+    </div>
 {% endblock %}
