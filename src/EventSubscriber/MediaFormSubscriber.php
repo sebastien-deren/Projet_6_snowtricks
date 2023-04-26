@@ -24,10 +24,6 @@ class MediaFormSubscriber implements EventSubscriberInterface
             $event->setData(null);
             return;
         }
-
-        if(null == $media[$setField]  ){
-            $event->getForm()->addError(new FormError("you must add a media"));
-        }
         $newMedia=[];
         $newMedia[$setField]= $media[$setField];
         $event->setData($newMedia);
