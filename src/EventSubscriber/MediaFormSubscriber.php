@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Enums\MediaEnum;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 
 class MediaFormSubscriber implements EventSubscriberInterface
@@ -22,6 +23,10 @@ class MediaFormSubscriber implements EventSubscriberInterface
         if(null ===$setField){
             $event->setData(null);
             return;
+        }
+
+        if(null == $media[$setField]  ){
+            $event->getForm()->addError(new FormError("you must add a media"));
         }
         $newMedia=[];
         $newMedia[$setField]= $media[$setField];
