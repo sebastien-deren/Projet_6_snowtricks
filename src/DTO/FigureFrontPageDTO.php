@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto;
+namespace App\DTO;
 
 use App\Entity\Figure;
 use App\Enums\FigureTypesEnum;

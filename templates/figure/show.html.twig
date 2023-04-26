@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% set isContainsImage = ((heroPhoto is defined) and heroPhoto) %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,7 +12,6 @@
 
 {% block body %}
     <div class="container-lg">
-
         <div class="d-flex justify-content-between mt-4 ">
             <div>
                 <a href="{{ path('app_figure_index') }}" class=" btn btn-primary"> << back to list</a>
@@ -30,7 +30,7 @@
 
 
         <div style="background-image:
-                url({{ ((heroPhoto is defined) and heroPhoto) ?
+                url({{  isContainsImage?
         asset('uploads/images/'~heroPhoto) :
         asset('default/homepage.jpg') }});"
              class="FigureHero my-3 rounded-3 d-flex flex-column justify-content-center">
@@ -51,35 +51,10 @@
 
         <div class="container-fluid">
             {% if figure.media is not empty %}
-                <div class="d-flex row mx-auto my-auto flex-row" style="width:100%">
-                    <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
-                        <div class="carousel-inner col container-fluid" role="listbox">
-                            <div class="carousel-item active">
-                                {% set mediaEntity =  figure.media.first %}
-                                <div class="col-md-3">
-                                    {% include ('media/_show.html.twig') %}
-                                </div>
-                            </div>
-
-                            {% for mediaEntity in figure.media %}
-                                <div class="carousel-item ">
-                                    <div class="col-md-3">
-                                        {% include ('media/_show.html.twig') %}
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <a class="carousel-control-prev  w-aut" href="#recipeCarousel" role="button"
-                           data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </a>
-                        <a class="carousel-control-next  bg-transparent w-aut" href="#recipeCarousel" role="button"
-                           data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </a>
-                    </div>
-
-                </div>
+                {% if isContainsImage %}
+                    {{ include('media/_media_carousel.html.twig') }}
+                {% endif %}
+                {{ include('media/_media_grid.html.twig') }}
             {% endif %}
         </div>
         <div>
@@ -95,8 +70,8 @@
         </div>
     </div>
 {% endblock %}{% block javascripts %}
-        <script type="module" src="{{ asset('asset/javascript/MessagePagination.js') }}"></script>
-        <script type="module" src="{{ asset('asset/javascript/Paginator.js') }}"></script>
-        <script src="{{ asset('asset/javascript/carroussel.js') }}"></script>
-        {{ parent() }}
-    {% endblock %}
+    <script type="module" src="{{ asset('asset/javascript/MessagePagination.js') }}"></script>
+    <script type="module" src="{{ asset('asset/javascript/Paginator.js') }}"></script>
+    <script src="{{ asset('asset/javascript/carroussel.js') }}"></script>
+    {{ parent() }}
+{% endblock %}

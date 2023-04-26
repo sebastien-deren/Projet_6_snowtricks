@@ -1,0 +1,18 @@
+<div class="container-fluid my-5">
+    <div class="row row-cols-auto ">
+        {% for mediaEntity in figure.media|filter(v => v.type.name is not same as'IMAGE')  %}
+            <div class="col">
+                {% include ('media/_media_Video.html.twig') %}
+
+                <div class="d-flex flex-row justify-content-evenly" style="">
+                    {% if is_granted('IS_AUTHENTICATED') %}
+                        <a class="btn btn-warning "
+                           href="{{ path('app_media_edit', {'id': mediaEntity.id, 'slug':figure.slug }) }}">edit</a>
+                        {{ include('media/_delete_form.html.twig') }}
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
