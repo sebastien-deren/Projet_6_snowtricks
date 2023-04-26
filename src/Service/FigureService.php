@@ -2,13 +2,11 @@
 
 namespace App\Service;
 
-use App\Dto\FigureFrontPageDTO;
-use App\Dto\FigureListDTO;
+use App\DTO\FigureFrontPageDTO;
 use App\Entity\Figure;
 use App\Entity\Media;
 use App\Enums\MediaEnum;
 use App\Repository\FigureRepository;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FigureService
 {
