@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Enums\MediaEnum;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 
 class MediaFormSubscriber implements EventSubscriberInterface
