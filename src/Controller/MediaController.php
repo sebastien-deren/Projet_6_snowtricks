@@ -31,10 +31,6 @@ class MediaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if(empty($medium->getFile()) && empty($medium->getVideo())){
-                $this->addFlash('danger','Vous n\'avez pas ajouter de nouveau media  !');
-                return $this->redirectToRoute('app_figure_show', ['slug' => $figure->getSlug()], Response::HTTP_SEE_OTHER);
-            }
             $figure->addMedium($medium);
             $repository->save($figure, true);
             $this->addFlash('success','Vous avez ajouter un nouveau media  !');
