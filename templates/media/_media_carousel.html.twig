@@ -1,16 +1,14 @@
 <div class="d-flex row mx-auto my-auto flex-row" style="width:100%">
-    <div id="recipeCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel"
+    <div id="carouselMedia" class="carousel carousel-dark slide"  data-bs-ride="carousel"
          data-bs-interval="false">
-        <div class="carousel-inner col container-fluid" role="listbox">
+        <div  id="carousel-inner" class="carousel-inner col container-fluid" role="listbox">
 
             {% for mediaEntity in figure.media|filter(v=> v.type.name is same as 'IMAGE') %}
-                {% if  mediaEntity.type.name is same as("IMAGE") %}
                     <div class="carousel-item {{ heroPhoto == mediaEntity.url ?'active':'' }} ">
                         <div class="col-md-3">
                             {% include ('media/_show.html.twig') %}
                         </div>
                     </div>
-                {% endif %}
             {% endfor %}
         </div>
         <a class="carousel-control-prev  w-aut" href="#recipeCarousel" role="button"

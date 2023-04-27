@@ -35,3 +35,6 @@
 .carousel-inner .carousel-item-start {
     transform: translateX(0);
 }
+.carousel-disable div{
+    width:100%
+}
