@@ -33,12 +33,7 @@ class ResetPasswordService
      */
     public function resetPasswordRequest(string $username, string $addressName): ?string
     {
-        try{
-
-            $user = $this->userRepository->findOneBy(['username' => $username]) ?? throw new UserNotFoundException();
-        }catch(UserNotFoundException $e){
-            $this->logger->alert($e);
-        }
+        $user = $this->userRepository->findOneBy(['username' => $username]);
         $token = $user->getHash();
         $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->mailerService->sendResetPasswordMail(new Address($user->getMail(), $user->getUsername()), ['address' => $fqAddress]);

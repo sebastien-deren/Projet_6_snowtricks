@@ -32,7 +32,7 @@ class ResetPasswordController extends AbstractController
             $username = $form->get('username')->getData();
             try {
                 $mail = $this->service->resetPasswordRequest($username, 'app_reset_password_mail');
-            } catch (TransportExceptionInterface $e) {
+            } catch (\Exception $e) {
                 $error = $e->getMessage();
             }
             return $this->render('reset_password/resetEmailSent.html.twig' ,[
