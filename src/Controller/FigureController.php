@@ -66,7 +66,7 @@ class FigureController extends AbstractController
             $createMessage($message,$this->getUser(),$figure);
         }
         $figureDTO = new FigureFullDTO($figure);
-        $figureDTO->messages = $messageService->displayFigure($figureDTO->messages,5);
+        $figureDTO->messages = $messageService->displayFigure($figureDTO->messages,);
         return $this->render('figure/show.html.twig', [
             'heroPhoto' => $service->findFrontImage($figure),
             'figure' => $figureDTO,

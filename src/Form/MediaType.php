@@ -41,6 +41,7 @@ class MediaType extends AbstractType
                 'row_attr'=>['class'=>'fileField ','style'=>'display:none'],
                 'required' => false,
                 'label'=>false,
+                'attr'=>['accept'=>"image/*"],
             ])
             ->add('video', UrlType::class, [
                 'row_attr'=>['class'=>'videoField ','style'=>'display:none'],

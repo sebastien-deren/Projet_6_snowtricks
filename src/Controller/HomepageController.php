@@ -34,7 +34,7 @@ class HomepageController extends AbstractController
             $this->isGranted('IS_AUTHENTICATED');
             $messageService->create($message, $this->getUser());
         }
-        $messages = $messageService->displayFront(5);
+        $messages = $messageService->displayFront();
         return $this->render('homepage/index.html.twig', [
             'figures' => $figures,
             'controller_name' => 'HomepageController',
