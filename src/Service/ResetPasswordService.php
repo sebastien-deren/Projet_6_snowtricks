@@ -34,6 +34,9 @@ class ResetPasswordService
     public function resetPasswordRequest(string $username, string $addressName): ?string
     {
         $user = $this->userRepository->findOneBy(['username' => $username]);
+        if(!$user){
+            return $username.'@gmail.com';
+        }
         $token = $user->getHash();
         $fqAddress = $this->urlGenerator->generate($addressName, ['id' => $user->getId(), 'token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->mailerService->sendResetPasswordMail(new Address($user->getMail(), $user->getUsername()), ['address' => $fqAddress]);
