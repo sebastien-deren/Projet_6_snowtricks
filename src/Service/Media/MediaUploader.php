@@ -28,16 +28,18 @@ class MediaUploader
         $media->setUrl($upload($fileToUpload));
 
     }
-    private function videoTypeGuessr(UnicodeString $Url):MediaEnum
+
+    private function videoTypeGuessr(UnicodeString $Url): MediaEnum
     {
-        if($Url->containsAny('youtu')){
+        if ($Url->containsAny('youtu')) {
             return MediaEnum::YOUTUBE;
         }
-        if($Url->containsAny('daily')){
+        if ($Url->containsAny('daily')) {
             return MediaEnum::DAILYMOTION;
         }
         return MediaEnum::VIDEO;
     }
+
     private function getUploader(MediaEnum $enum): \Closure
     {
         return match ($enum) {
@@ -48,12 +50,12 @@ class MediaUploader
         };
 
     }
+
     private function uploadImage(File $file): string
     {
-        if($file instanceof UploadedFile){
+        if ($file instanceof UploadedFile) {
             $originalImageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        }
-        else{
+        } else {
             $originalImageName = $file->getFileName();
         }
 
@@ -64,6 +66,8 @@ class MediaUploader
 
     private function uploadYoutube(UnicodeString $link): string
     {
+        $link= $link->split('&');
+        $link = $link[0]->replace('youtu.be','youtube.com');
         if ($link->containsAny('/embed')) {
             return $link;
         }
@@ -71,7 +75,8 @@ class MediaUploader
             return $link->replace('/watch?v=', '/embed/');
         }
 
-        throw new \Exception('bad youtube link!');
+        return $link->replace('.com/','.com/embed/');
+
 
     }
 
