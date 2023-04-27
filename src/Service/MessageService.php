@@ -15,7 +15,7 @@ class MessageService
     {
     }
 
-    public function displayFront(int $itemByPage =0): array
+    public function displayFront(int $itemByPage =10): array
     {
         $messages = $this->repository->findBy(["figure" => null],["createdAt"=>"DESC"]);
         $messages=  array_map((fn($args) => new MessageDTO($args)),$messages);
@@ -25,7 +25,7 @@ class MessageService
         return array_chunk($messages,$itemByPage);
     }
 
-    public function displayFigure(array $messages,int $itemByPage =0 ): array
+    public function displayFigure(array $messages,int $itemByPage =10 ): array
     {
         if(0===$itemByPage){
             return [0=>$messages];
